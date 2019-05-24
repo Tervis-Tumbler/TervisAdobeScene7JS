@@ -2,6 +2,42 @@ import {
     Get_CustomyzerImageTemplateName
 } from '../TervisCustomyzerJS/TervisCustomyzerJS.js'
 
+export function New_TervisAdobeScene7ColorInkImageURL ({
+    $ProjectID,
+    $Size,
+    $FormType
+}) {
+    let $GetTemplateNameParameters = ({$Size, $FormType})
+    if ($FormType !== "SS") {
+        return `
+http://images.tervis.com/ir/render/tervisRender/${Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
+&obj=group
+&decal
+&src=is(
+    tervis/prj-${$ProjectID}
+)
+&show
+&res=300
+&req=object
+&fmt=png-alpha,rgb
+&scl=1
+`.replace(/\s/g, "")
+    } else if ($FormType === "SS") {
+        return `
+http://images.tervis.com/is/image/tervisRender/${Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
+.BG
+&layer=5
+&anchor=0,0
+&src=is(
+tervis/prj-${$ProjectID}
+)
+&scl=1
+&fmt=png-alpha,rgb
+`.replace(/\s/g, "")
+    }
+}
+
+
 export function New_TervisAdobeScene7FinalImageURL ({
     $ProjectID,
     $Size,
@@ -82,7 +118,6 @@ src=(
             &req=object
             &fmt=png-alpha
         )
-        &op_grow=-2
     )
     &scl=1
 )
@@ -117,7 +152,6 @@ src=(
             &req=object
             &fmt=png-alpha
         )
-        &op_grow=-2
     )
     &scl=1
     &layer=2
