@@ -1,6 +1,6 @@
 import {
     Get_CustomyzerImageTemplateName
-} from '@tervis/terviscustomyzerjs'
+} from '@tervis/terviscustomyzerjs/TervisCustomyzerJS.js'
 
 export async function New_TervisAdobeScene7ColorInkImageURL ({
     $ProjectID,
