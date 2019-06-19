@@ -254,14 +254,19 @@ export async function Get_3DTumblerPreviewImageURL({
 }
 
 export function Get_TervisAdobeScene7VignetteContentsURL({
+    $Size,
+    $FormType,
+    $VignetteType,
     $VignetteName
 }) {
+    var $VignetteTypeToSuffixMap = {
+        "Hero": "1-HERO2",
+        "Stock": "1"
+    }
+    
+    if ($VignetteType) {
+        var $VignetteName = `${$Size}${$FormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
+    }
+    
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
-}
-
-export function Get_TervisAdobeScene7HeroVignetteContentsURL({
-    $Size,
-    $FormType
-}) {
-    return Get_TervisAdobeScene7VignetteContentsURL({$VignetteName: `${$Size}${$FormType}1-HERO2`})
 }
