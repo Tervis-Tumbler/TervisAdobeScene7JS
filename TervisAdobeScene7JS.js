@@ -256,7 +256,7 @@ export async function Get_3DTumblerPreviewImageURL({
 export function Get_TervisAdobeScene7VignetteContentsURL({
     $VignetteName
 }) {
-    return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}1-HERO2?req=contents`
+    return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
 export function Get_TervisAdobeScene7HeroVignetteContentsURL({
