@@ -223,3 +223,45 @@ export async function New_TervisAdobeScene7VuMarkImageURL ({
 // &fmt=png-alpha
 // "@ | Remove-WhiteSpace
 // }
+
+export async function Get_3DTumblerPreviewImageURL({
+    $Size,
+    $FormType
+}) {
+    return `
+                http://s7d4.scene7.com/is/image/tervis?
+                layer=0&
+                src=ir{
+                  tervisRender/${$Size}${$FormType}1-HERO2?
+                  &obj=MAIN/GLARE
+                  &show
+                  &obj=MAIN/OUTER/${outerform}/${outercolor}
+                  &show
+                  &obj=MAIN/INNER/${innerform}/${innercolor}
+                  &show
+                  &obj=MAIN/DECO
+                  &decal
+                  &src=${codetypeURL}
+                  ${res2}
+                  &pos=${slider},0
+                  &show
+                  ${lidColor}
+                  ${handle}
+                  &obj=MAIN
+                  &req=object
+                }
+                ${preset}`.replace(/\s/g, "");
+}
+
+export function Get_TervisAdobeScene7VignetteContentsURL({
+    $VignetteName
+}) {
+    return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}1-HERO2?req=contents`
+}
+
+export function Get_TervisAdobeScene7HeroVignetteContentsURL({
+    $Size,
+    $FormType
+}) {
+    return Get_TervisAdobeScene7VignetteContentsURL({$VignetteName: `${$Size}${$FormType}1-HERO2`})
+}
