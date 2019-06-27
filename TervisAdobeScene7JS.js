@@ -270,3 +270,36 @@ export function Get_TervisAdobeScene7VignetteContentsURL({
     
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
+
+
+export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
+    $Size,
+    $FormType,
+    $AsRelativeURL,
+    $WrapImageURL,
+    $WrapImageRelativeURL
+}) {
+    var $WrapImageURLSlotValue
+    if ($WrapImageURL) {
+        $WrapImageURLSlotValue = `&src=(${$WrapImageURL})`
+    } else if($WrapImageRelativeURL) {
+        $WrapImageURLSlotValue = `&src=is{${$WrapImageRelativeURL}}`
+    }
+
+    $BaseURL = `
+        tervisRender/${$Size}${$FormType}-WRA-PRINT-SINGLE?
+        obj=DECO
+        &decal
+        ${$WrapImageURLSlotValue}
+        &res=300
+        &show
+        &obj=DECO
+        &req=object
+    `.replace(/\s/g, "");
+
+    if ($AsRelativeURL) {
+        $BaseURL
+    } else {
+        `//images.tervis.com/ir/render/${$BaseURL}`
+    }
+}
