@@ -253,6 +253,32 @@ export async function Get_3DTumblerPreviewImageURL({
                 ${preset}`.replace(/\s/g, "");
 }
 
+export function Get_TervisAdobeScene7URL ({
+    $Type,
+    $RelativeURL,
+    $AsScene7RelativeURL
+}) {
+    if ($AsScene7RelativeURL) {
+        if ($Type === "ImageServer") {
+            return `is{${$RelativeURL}}`
+        } else if ($Type === "ImageRender") {
+            return `ir{${$RelativeURL}}`
+        }
+    } else {
+        if ($Type === "ImageServer") {
+            return `//images.tervis.com/is/image/${$RelativeURL}
+                &scl=1
+                &fmt=png-alpha
+            `.replace(/\s/g, "")
+        } else if ($Type === "ImageRender") {
+            return `//images.tervis.com/ir/render/${$RelativeURL}
+                &scl=1
+                &fmt=png-alpha
+            `.replace(/\s/g, "")    
+        }
+    }
+}
+
 export function Get_TervisAdobeScene7VignetteContentsURL({
     $Size,
     $FormType,
@@ -299,7 +325,7 @@ export function Get_TervisAdobeScene7VignetteWrapPrintSingleURL ({
     return Get_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7RelativeURL})
 }
 
-export function Get_TervisAdobeScene7VignetteWrapDecoration3Times ({
+export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     $Size,
     $FormType,
     $AsScene7RelativeURL,
@@ -331,28 +357,26 @@ export function Get_TervisAdobeScene7VignetteWrapDecoration3Times ({
     return Get_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7RelativeURL})
 }
 
-export function Get_TervisAdobeScene7URL ({
-    $Type,
-    $RelativeURL,
-    $AsScene7RelativeURL
+export function Get_TervisAdobeScene7VignetteVirtual ({
+    $Size,
+    $FormType,
+    $AsScene7RelativeURL,
+    $WrapImageURL,
+    $WrapImageRelativeURL,
+    $ElementPathsToShow
 }) {
-    if ($AsScene7RelativeURL) {
-        if ($Type === "ImageServer") {
-            return `is{${$RelativeURL}}`
-        } else if ($Type === "ImageRender") {
-            return `ir{${$RelativeURL}}`
-        }
-    } else {
-        if ($Type === "ImageServer") {
-            return `//images.tervis.com/is/image/${$RelativeURL}
-                &scl=1
-                &fmt=png-alpha
-            `.replace(/\s/g, "")
-        } else if ($Type === "ImageRender") {
-            return `//images.tervis.com/ir/render/${$RelativeURL}
-                &scl=1
-                &fmt=png-alpha
-            `.replace(/\s/g, "")    
-        }
-    }
+    $Decoration3TimesScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL({$WrapImageURL, $WrapImageRelativeURL, $AsScene7RelativeURL: true, $Size, $FormType})
+
+    $ShowObjectsURLFragment = $ElementPathsToShow.map(
+        $ElementPath => `&obj=${$ElementPath}&show`
+    )
+    .join()
+
+    `
+tervisRender/${$Size}${$FormType}1?
+${$ShowObjectsURLFragment}
+&obj=MAIN/DECO
+&decal
+&src=${$Decoration3TimesScene7RelativeURL}
+`
 }
