@@ -333,7 +333,7 @@ export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     $WrapImageRelativeURL
 }) {
 
-    $WrapPrintSingleScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapPrintSingleURL({ 
+    var $WrapPrintSingleScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapPrintSingleURL({
         $Size,
         $FormType,
         $AsScene7RelativeURL: true,
@@ -365,9 +365,9 @@ export function Get_TervisAdobeScene7VignetteVirtual ({
     $WrapImageRelativeURL,
     $ElementPathsToShow
 }) {
-    $Decoration3TimesScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL({$WrapImageURL, $WrapImageRelativeURL, $AsScene7RelativeURL: true, $Size, $FormType})
+    var $Decoration3TimesScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL({$WrapImageURL, $WrapImageRelativeURL, $AsScene7RelativeURL: true, $Size, $FormType})
 
-    $ShowObjectsURLFragment = $ElementPathsToShow.map(
+    var $ShowObjectsURLFragment = $ElementPathsToShow.map(
         $ElementPath => `&obj=${$ElementPath}&show`
     )
     .join()
