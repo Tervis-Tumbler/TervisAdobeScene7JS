@@ -286,7 +286,7 @@ export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
         $WrapImageURLSlotValue = `&src=is{${$WrapImageRelativeURL}}`
     }
 
-    $BaseURL = `
+    var $BaseURL = `
         tervisRender/${$Size}${$FormType}-WRA-PRINT-SINGLE?
         obj=DECO
         &decal
@@ -298,8 +298,8 @@ export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
     `.replace(/\s/g, "");
 
     if ($AsRelativeURL) {
-        $BaseURL
+        return $BaseURL
     } else {
-        `//images.tervis.com/ir/render/${$BaseURL}`
+        return `//images.tervis.com/ir/render/${$BaseURL}`
     }
 }
