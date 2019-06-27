@@ -271,11 +271,10 @@ export function Get_TervisAdobeScene7VignetteContentsURL({
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
-
-export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
+export function Get_TervisAdobeScene7VignetteWrapPrintSingleURL ({
     $Size,
     $FormType,
-    $AsRelativeURL,
+    $AsScene7RelativeURL,
     $WrapImageURL,
     $WrapImageRelativeURL
 }) {
@@ -286,7 +285,7 @@ export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
         $WrapImageURLSlotValue = `&src=is{${$WrapImageRelativeURL}}`
     }
 
-    var $BaseURL = `
+    var $RelativeURL = `
         tervisRender/${$Size}${$FormType}-WRA-PRINT-SINGLE?
         obj=DECO
         &decal
@@ -295,11 +294,65 @@ export function Get_TervisAdobeScene7VignetteWrapPrintSingleRelativeURL ({
         &show
         &obj=DECO
         &req=object
-    `.replace(/\s/g, "");
+    `.replace(/\s/g, "")
 
-    if ($AsRelativeURL) {
-        return $BaseURL
+    return Get_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7RelativeURL})
+}
+
+export function Get_TervisAdobeScene7VignetteWrapDecoration3Times ({
+    $Size,
+    $FormType,
+    $AsScene7RelativeURL,
+    $WrapImageURL,
+    $WrapImageRelativeURL
+}) {
+
+    $WrapPrintSingleScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapPrintSingleURL({ 
+        $Size,
+        $FormType,
+        $AsScene7RelativeURL: true,
+        $WrapImageRelativeURL,
+        $WrapImageURL
+    })
+
+    var $RelativeURL = `
+        tervis/${$Size}${$FormType}-WRA-DECO3?
+        layer=1
+        &src=${$WrapPrintSingleScene7RelativeURL}
+        &layer=2
+        &src=${$WrapPrintSingleScene7RelativeURL}
+        &layer=3
+        &src=${$WrapPrintSingleScene7RelativeURL}
+        &show
+        &obj=DECO
+        &req=object
+    `.replace(/\s/g, "")
+
+    return Get_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7RelativeURL})
+}
+
+export function Get_TervisAdobeScene7URL ({
+    $Type,
+    $RelativeURL,
+    $AsScene7RelativeURL
+}) {
+    if ($AsScene7RelativeURL) {
+        if ($Type === "ImageServer") {
+            return `is{${$RelativeURL}}`
+        } else if ($Type === "ImageRender") {
+            return `ir{${$RelativeURL}}`
+        }
     } else {
-        return `//images.tervis.com/ir/render/${$BaseURL}`
+        if ($Type === "ImageServer") {
+            return `//images.tervis.com/is/image/${$RelativeURL}
+                &scl=1
+                &fmt=png-alpha
+            `.replace(/\s/g, "")
+        } else if ($Type === "ImageRender") {
+            return `//images.tervis.com/ir/render/${$RelativeURL}
+                &scl=1
+                &fmt=png-alpha
+            `.replace(/\s/g, "")    
+        }
     }
 }
