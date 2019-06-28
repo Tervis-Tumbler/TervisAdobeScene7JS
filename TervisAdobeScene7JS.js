@@ -253,16 +253,19 @@ export async function Get_3DTumblerPreviewImageURL({
                 ${preset}`.replace(/\s/g, "");
 }
 
-export function Get_TervisAdobeScene7URL ({
+export function New_TervisAdobeScene7URL ({
     $Type,
     $RelativeURL,
-    $AsScene7RelativeURL
+    $AsScene7SrcValue,
+    $ExternalURL
 }) {
-    if ($AsScene7RelativeURL) {
+    if ($AsScene7SrcValue) {
         if ($Type === "ImageServer") {
             return `is{${$RelativeURL}}`
         } else if ($Type === "ImageRender") {
             return `ir{${$RelativeURL}}`
+        } else if ($ExternalURL) {
+            return `{${$ExternalURL}}`
         }
     } else {
         if ($Type === "ImageServer") {
@@ -300,35 +303,27 @@ export function Get_TervisAdobeScene7VignetteContentsURL({
 export function Get_TervisAdobeScene7VignetteWrapPrintSingleURL ({
     $Size,
     $FormType,
-    $AsScene7RelativeURL,
-    $WrapImageURL,
-    $WrapImageRelativeURL
+    $AsScene7SrcValue,
+    $WrapImageSrcValue
 }) {
-    var $WrapImageURLSlotValue
-    if ($WrapImageURL) {
-        $WrapImageURLSlotValue = `&src=(${$WrapImageURL})`
-    } else if($WrapImageRelativeURL) {
-        $WrapImageURLSlotValue = `&src=is{${$WrapImageRelativeURL}}`
-    }
-
     var $RelativeURL = `
         tervisRender/${$Size}${$FormType}-WRA-PRINT-SINGLE?
         obj=DECO
         &decal
-        ${$WrapImageURLSlotValue}
+        &src=${$WrapImageSrcValue}
         &res=300
         &show
         &obj=DECO
         &req=object
     `.replace(/\s/g, "")
 
-    return Get_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7RelativeURL})
+    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
 export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     $Size,
     $FormType,
-    $AsScene7RelativeURL,
+    $AsScene7SrcValue,
     $DecorationType,
     $RepeatedImageSource
 }) {
@@ -345,13 +340,13 @@ export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
         &req=object
     `.replace(/\s/g, "")
 
-    return Get_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7RelativeURL})
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
 export function Get_TervisAdobeScene7VignetteVirtual ({
     $Size,
     $FormType,
-    $AsScene7RelativeURL,
+    $AsScene7SrcValue,
     $WrapImageURL,
     $WrapImageRelativeURL,
     $ElementPathsToShow
