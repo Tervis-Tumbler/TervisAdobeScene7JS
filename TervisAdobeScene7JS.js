@@ -341,14 +341,22 @@ export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
         $WrapImageURL
     })
 
+    // var $RelativeURL = `
+    //     tervis/${$Size}${$FormType}-WRA-DECO3?
+    //     layer=1
+    //     &src=${$WrapPrintSingleScene7RelativeURL}
+    //     &layer=2
+    //     &src=${$WrapPrintSingleScene7RelativeURL}
+    //     &layer=3
+    //     &src=${$WrapPrintSingleScene7RelativeURL}
+    //     &show
+    //     &obj=DECO
+    //     &req=object
+    // `.replace(/\s/g, "")
+
     var $RelativeURL = `
         tervis/${$Size}${$FormType}-WRA-DECO3?
-        layer=1
-        &src=${$WrapPrintSingleScene7RelativeURL}
-        &layer=2
-        &src=${$WrapPrintSingleScene7RelativeURL}
-        &layer=3
-        &src=${$WrapPrintSingleScene7RelativeURL}
+        $img-src=${$WrapPrintSingleScene7RelativeURL}
         &show
         &obj=DECO
         &req=object
