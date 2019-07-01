@@ -355,6 +355,6 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     $ProjectID,
     $AsScene7SrcValue
 }) {
-    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL: `tervis/prj-${$ProjectID}`, $AsScene7SrcValue})
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL: `tervis/prj-${$ProjectID}`, $AsScene7SrcValue})
 }
 
