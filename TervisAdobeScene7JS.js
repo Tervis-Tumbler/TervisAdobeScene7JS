@@ -344,26 +344,38 @@ export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function Get_TervisAdobeScene7VignetteVirtual ({
+export function New_TervisAdobeScene7VignetteVirtualURL ({
     $Size,
     $FormType,
-    $AsScene7SrcValue,
-    $WrapImageURL,
-    $WrapImageRelativeURL,
-    $ElementPathsToShow
+    $VignetteSuffix,
+    $DecorationSrc,
+    $DecorationPositionXValue,
+    $ElementPathsToShow,
+    $AsScene7SrcValue
 }) {
-    var $Decoration3TimesScene7RelativeURL = Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL({$WrapImageURL, $WrapImageRelativeURL, $AsScene7RelativeURL: true, $Size, $FormType})
+    
 
     var $ShowObjectsURLFragment = $ElementPathsToShow.map(
         $ElementPath => `&obj=${$ElementPath}&show`
     )
     .join()
+ 
+    var $DecorationStanza
+    if ($DecorationSrc && $DecorationPositionXValue) {
+        $DecorationStanza = `
+            &obj=MAIN/DECO
+            &decal
+            &src=${$DecorationSrc}
+            &pos=${$DecorationPositionXValue},0
+            &show
+        `.replace(/\s/g, "")
+    }
 
-    `
-tervisRender/${$Size}${$FormType}1?
-${$ShowObjectsURLFragment}
-&obj=MAIN/DECO
-&decal
-&src=${$Decoration3TimesScene7RelativeURL}
-`
+    $RelativeURL = `
+        tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
+        ${$ShowObjectsURLFragment}
+        ${$DecorationStanza}
+    `.replace(/\s/g, "")
+
+    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
