@@ -358,7 +358,7 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
     var $ShowObjectsURLFragment = $ElementPathsToShow.map(
         $ElementPath => `&obj=${$ElementPath}&show`
     )
-    .join()
+    .join('')
  
     var $DecorationStanza
     if ($DecorationSrc && $DecorationPositionXValue) {
