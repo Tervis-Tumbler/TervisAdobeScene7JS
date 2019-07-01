@@ -300,17 +300,18 @@ export function Get_TervisAdobeScene7VignetteContentsURL({
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
-export function Get_TervisAdobeScene7VignetteWrapPrintSingleURL ({
+export function Get_TervisAdobeScene7VignettePrintSingleURL ({
     $Size,
     $FormType,
+    $DecorationType,
     $AsScene7SrcValue,
-    $WrapImageSrcValue
+    $ImageSrcValue
 }) {
     var $RelativeURL = `
-        tervisRender/${$Size}${$FormType}-WRA-PRINT-SINGLE?
+        tervisRender/${$Size}${$FormType}-${$DecorationType}-PRINT-SINGLE?
         obj=DECO
         &decal
-        &src=${$WrapImageSrcValue}
+        &src=${$ImageSrcValue}
         &res=300
         &show
         &obj=DECO
