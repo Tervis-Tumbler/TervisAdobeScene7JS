@@ -224,35 +224,6 @@ export async function New_TervisAdobeScene7VuMarkImageURL ({
 // "@ | Remove-WhiteSpace
 // }
 
-export async function Get_3DTumblerPreviewImageURL({
-    $Size,
-    $FormType
-}) {
-    return `
-                http://s7d4.scene7.com/is/image/tervis?
-                layer=0&
-                src=ir{
-                  tervisRender/${$Size}${$FormType}1-HERO2?
-                  &obj=MAIN/GLARE
-                  &show
-                  &obj=MAIN/OUTER/${outerform}/${outercolor}
-                  &show
-                  &obj=MAIN/INNER/${innerform}/${innercolor}
-                  &show
-                  &obj=MAIN/DECO
-                  &decal
-                  &src=${codetypeURL}
-                  ${res2}
-                  &pos=${slider},0
-                  &show
-                  ${lidColor}
-                  ${handle}
-                  &obj=MAIN
-                  &req=object
-                }
-                ${preset}`.replace(/\s/g, "");
-}
-
 export function New_TervisAdobeScene7URL ({
     $Type,
     $RelativeURL,
@@ -379,3 +350,11 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
 
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
+
+export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
+    $ProjectID,
+    $AsScene7SrcValue
+}) {
+    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL: `tervis/prj-${$ProjectID}`, $AsScene7SrcValue})
+}
+
