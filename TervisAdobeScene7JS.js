@@ -371,7 +371,7 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
         `.replace(/\s/g, "")
     }
 
-    $RelativeURL = `
+    var $RelativeURL = `
         tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
         ${$ShowObjectsURLFragment}
         ${$DecorationStanza}
