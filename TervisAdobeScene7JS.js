@@ -239,17 +239,18 @@ export function New_TervisAdobeScene7URL ({
             return `{${$ExternalURL}}`
         }
     } else {
+        var $URL
         if ($Type === "ImageServer") {
-            return `//images.tervis.com/is/image/${$RelativeURL}
-                &scl=1
-                &fmt=png-alpha
-            `.replace(/\s/g, "")
+            $URL = new URL(`https://images.tervis.com/is/image/${$RelativeURL}`)
         } else if ($Type === "ImageRender") {
-            return `//images.tervis.com/ir/render/${$RelativeURL}
-                &scl=1
-                &fmt=png-alpha
-            `.replace(/\s/g, "")    
+            $URL = new URL(`https://images.tervis.com/ir/render/${$RelativeURL}`)
         }
+
+        var $URLSearchParams = new URLSearchParams($URL.search)
+        $URLSearchParams.append('scl', 1)
+        $URLSearchParams.append('fmt', 'png-alpha')
+        $URL.search = `?${$URLSearchParams.toString()}`
+        return $URL.href
     }
 }
 
