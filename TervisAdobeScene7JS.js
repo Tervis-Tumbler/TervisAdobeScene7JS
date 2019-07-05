@@ -236,6 +236,7 @@ export function New_TervisAdobeScene7URL ({
         } else if ($Type === "ImageRender") {
             return `ir{${$RelativeURL}}`
         } else if ($ExternalURL) {
+            $ExternalURLWithoutHttps = $ExternalURL.replace(/^https/i, "http")
             return `{${$ExternalURL}}`
         }
     } else {
@@ -250,7 +251,7 @@ export function New_TervisAdobeScene7URL ({
         $URLSearchParams.append('scl', 1)
         $URLSearchParams.append('fmt', 'png-alpha')
         $URL.search = `?${$URLSearchParams.toString()}`
-        return $URL.href
+        return decodeURIComponent($URL.href)
     }
 }
 
