@@ -348,6 +348,8 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
         tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
         ${$ShowObjectsURLFragment}
         ${$DecorationStanza}
+        &obj=MAIN
+        &req=object
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
