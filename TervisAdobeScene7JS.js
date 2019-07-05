@@ -333,7 +333,7 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
     .join('')
  
     var $DecorationStanza
-    if ($DecorationSrc && $DecorationPositionXValue) {
+    if ($DecorationSrc) {
         $DecorationStanza = `
             &obj=MAIN/DECO
             &decal
