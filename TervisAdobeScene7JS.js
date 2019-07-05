@@ -254,7 +254,7 @@ export function New_TervisAdobeScene7URL ({
     }
 }
 
-export function Get_TervisAdobeScene7VignetteContentsURL({
+export function New_TervisAdobeScene7VignetteContentsURL({
     $Size,
     $FormType,
     $VignetteType,
@@ -272,7 +272,7 @@ export function Get_TervisAdobeScene7VignetteContentsURL({
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
-export function Get_TervisAdobeScene7VignettePrintSingleURL ({
+export function New_TervisAdobeScene7VignettePrintSingleURL ({
     $Size,
     $FormType,
     $DecorationType,
@@ -293,7 +293,7 @@ export function Get_TervisAdobeScene7VignettePrintSingleURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function Get_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
+export function New_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     $Size,
     $FormType,
     $AsScene7SrcValue,
