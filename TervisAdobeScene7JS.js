@@ -236,8 +236,8 @@ export function New_TervisAdobeScene7URL ({
         } else if ($Type === "ImageRender") {
             return `ir{${$RelativeURL}}`
         } else if ($ExternalURL) {
-            $ExternalURLWithoutHttps = $ExternalURL.replace(/^https/i, "http")
-            return `{${$ExternalURL}}`
+            var $ExternalURLWithoutHttps = $ExternalURL.replace(/^https/i, "http")
+            return `{${$ExternalURLWithoutHttps}}`
         }
     } else {
         var $URL
