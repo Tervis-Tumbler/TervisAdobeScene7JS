@@ -309,9 +309,6 @@ export function New_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
         &src=${$RepeatedImageSource}
         &layer=3
         &src=${$RepeatedImageSource}
-        &show
-        &obj=DECO
-        &req=object
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
