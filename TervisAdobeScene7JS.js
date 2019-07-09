@@ -1,5 +1,6 @@
 import {
-    Get_CustomyzerImageTemplateName
+    Get_CustomyzerImageTemplateName,
+    Get_SizeAndFormTypeMetaDataUsingIndex
 } from '@tervis/terviscustomyzerjs/TervisCustomyzerJS.js'
 
 export async function New_TervisAdobeScene7ColorInkImageURL ({
@@ -30,53 +31,6 @@ http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTempla
 &anchor=0,0
 &src=is(
 tervis/prj-${$ProjectID}
-)
-&scl=1
-&fmt=png-alpha,rgb
-`.replace(/\s/g, "")
-    }
-}
-
-
-export async function New_TervisAdobeScene7FinalImageURL ({
-    $ProjectID,
-    $Size,
-    $FormType
-}) {
-    let $GetTemplateNameParameters = ({$Size, $FormType})
-    if ($FormType !== "SS") {
-        return `
-http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Final"})}?
-layer=1&
-src=ir(
-    tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
-    &obj=group
-    &decal
-    &src=is(
-        tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
-        .BG
-        &layer=5
-        &anchor=0,0
-        &src=is(
-            tervis/prj-${$ProjectID}
-        )
-    )
-    &show
-    &res=300
-    &req=object
-    &fmt=png-alpha,rgb
-)
-&scl=1
-&fmt=png-alpha,rgb
-`.replace(/\s/g, "")
-    } else if ($FormType === "SS") {
-        return `
-http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
-.BG
-&layer=5
-&anchor=0,0
-&src=is(
-    tervis/prj-${$ProjectID}
 )
 &scl=1
 &fmt=png-alpha,rgb
@@ -202,28 +156,6 @@ export async function New_TervisAdobeScene7VuMarkImageURL ({
     return `http://images.tervis.com/is/image/tervis/vum-${$ProjectID}-${$VuMarkID}?scl=1&fmt=png-alpha,rgb`
 }
 
-// export function New_TervisAdobeScene7CustomyzerProjectProofImageURL ({
-//     $ProjectID,
-//     $Size,
-//     $FormType,
-//     $AsRelativeURL
-// }) {
-//     let $GetTemplateNameParameters = ({$Size, $FormType})
-//     $CustomyzerSizeAndFormTypeMetaData =  Get-CustomyzerSizeAndFormTypeMetaData @GetTemplateNameParameters
-//     $PrintImageDimensions = $CustomyzerSizeAndFormTypeMetaData.PrintImageDimensions
-//     @"
-// http://images.tervis.com/is/image/tervis?
-// &layer=0
-// &size=$($PrintImageDimensions.Width),$($PrintImageDimensions.Height)
-// &layer=1
-// &src=($(New-TervisAdobeScene7VignetteProofImageURL @GetTemplateNameParameters -ProjectID $ProjectID))
-// &layer=2
-// &src=is($(New-TervisAdobeScene7DiecutterCalibrationCheckLineImageURL @GetTemplateNameParameters -AsRelativeURL))
-// &scl=1
-// &fmt=png-alpha
-// "@ | Remove-WhiteSpace
-// }
-
 export function New_TervisAdobeScene7URL ({
     $Type,
     $RelativeURL,
@@ -323,8 +255,6 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
     $ElementPathsToShow,
     $AsScene7SrcValue
 }) {
-    
-
     var $ShowObjectsURLFragment = $ElementPathsToShow.map(
         $ElementPath => `&obj=${$ElementPath}&show`
     )
@@ -375,3 +305,54 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL: `tervis/prj-${$ProjectID}`, $AsScene7SrcValue})
 }
 
+export function New_TervisAdobeScene7CustomyzerArtboardProofImageURL ({
+    $ProjectID,
+    $AsScene7SrcValue
+}) {
+    var $ArtboardImageURL = New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $AsScene7SrcValue})
+    return `
+        ${$ArtboardImageURL}?
+        &layer=0
+        &bgColor=e6e7e8
+    `.replace(/\s/g, "")
+}
+
+export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
+    $Size,
+    $FormType,
+    $AsScene7SrcValue
+}) {
+    return New_TervisAdobeScene7URL({
+        $Type: "ImageServer",
+        $RelativeURL: `tervisRender/${await Get_CustomyzerImageTemplateName({ $Size, $FormType, $TemplateType: "DiecutterCalibrationCheckLine"})}`,
+        $AsScene7SrcValue
+    })
+}
+
+export function New_TervisAdobeScene7CustomyzerProjectProofImageURL({
+    $ProjectID,
+    $Size,
+    $FormType,
+    $AsScene7RelativeUrl,
+    $AsVirtual
+}) {
+    var $SizeAndFormTypeMetaData = Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
+    var $PrintImageDimensions = $SizeAndFormTypeMetaData.PrintImageDimensions
+    
+//     if ($AsVirtual) {
+//         $VignettePositionRelativeToVirtualSampleBackground = $CustomyzerSizeAndFormTypeMetaData.VignettePositionRelativeToVirtualSampleBackground
+//         $OutputImageWidth = $VignettePositionRelativeToVirtualSampleBackground.Right - $VignettePositionRelativeToVirtualSampleBackground.Left
+//         $OutputImageHeight = $VignettePositionRelativeToVirtualSampleBackground.Bottom - $VignettePositionRelativeToVirtualSampleBackground.Top    
+//     }
+    
+//     $RelativeURL = @"
+// tervisRender?
+// &layer=0
+// &size=$($PrintImageDimensions.Width),$($PrintImageDimensions.Height)
+// &layer=1
+// &src=$(New-TervisAdobeScene7VignetteProofImageURL @GetTemplateNameParameters -ProjectID $ProjectID -AsScene7RelativeURL)
+// &layer=2
+// &src=$(New-TervisAdobeScene7DiecutterCalibrationCheckLineImageURL @GetTemplateNameParameters -AsScene7RelativeUrl)
+// $(if($AsVirtual) {"&wid=$OutputImageWidth&hid=$OutputImageHeight"})
+// "@ | Remove-WhiteSpace
+}
