@@ -273,7 +273,7 @@ export function New_TervisAdobeScene7VignetteContentsURL({
     return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
-export function New_TervisAdobeScene7VignettePrintSingleURL ({
+export function New_TervisAdobeScene7PrintSingleURL ({
     $Size,
     $FormType,
     $DecorationType,
@@ -294,7 +294,7 @@ export function New_TervisAdobeScene7VignettePrintSingleURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function New_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
+export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     $Size,
     $FormType,
     $AsScene7SrcValue,
@@ -314,7 +314,7 @@ export function New_TervisAdobeScene7VignetteWrapDecoration3TimesURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function New_TervisAdobeScene7VignetteVirtualURL ({
+export function New_TervisAdobeScene7ProductVirtualURL ({
     $Size,
     $FormType,
     $VignetteSuffix,
@@ -350,6 +350,22 @@ export function New_TervisAdobeScene7VignetteVirtualURL ({
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
+}
+
+export function New_TervisAdobeScene7VirtualURL ({
+    $Size,
+    $FormType,
+    $VignetteSuffix,
+    $DecorationSrc,
+    $DecorationPositionXValue,
+    $ElementPathsToShow,
+    $AsScene7SrcValue
+}) {
+
+    var $RelativeURL = `
+        tervisRender/VIRTUALS_ALL_Background?
+        layer1
+    `.replace(/\s/g, "")
 }
 
 export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
