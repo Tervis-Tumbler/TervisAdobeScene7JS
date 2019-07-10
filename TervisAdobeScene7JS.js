@@ -392,9 +392,10 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
 
     var $ArcedProofImageURLAsScene7SrcValue = await New_TervisAdobeScene7ArcedProofImageURL({
         $ProjectID,
+        $Size,
+        $FormType,
         $Width: $VignetteWidth,
         $Height: $VignetteHeight,
-        $FormType,
         $AsScene7SrcValue: true
     })
 
