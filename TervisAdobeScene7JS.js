@@ -8,34 +8,31 @@ export async function New_TervisAdobeScene7ColorInkImageURL ({
     $Size,
     $FormType
 }) {
-    let $GetTemplateNameParameters = ({$Size, $FormType})
     if ($FormType !== "SS") {
-        return `
-http://images.tervis.com/ir/render/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
-&obj=group
-&decal
-&src=is(
-    tervis/prj-${$ProjectID}
-)
-&show
-&res=300
-&req=object
-&fmt=png-alpha,rgb
-&scl=1
-`.replace(/\s/g, "")
+        var $ArtboardImageURLAsSrcValue = New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $AsScene7SrcValue: true})
+        return New_TervisAdobeScene7ArcedImageURL({$Size, $FormType, $DecalSourceValue: $ArtboardImageURLAsSrcValue})
     } else if ($FormType === "SS") {
-        return `
-http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
-.BG
-&layer=5
-&anchor=0,0
-&src=is(
-tervis/prj-${$ProjectID}
-)
-&scl=1
-&fmt=png-alpha,rgb
-`.replace(/\s/g, "")
+        return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID})
     }
+}
+
+export async function New_TervisAdobeScene7ArcedImageURL ({
+    $Size,
+    $FormType,
+    $DecalSourceValue,
+    $AsScene7SrcValue
+}) {
+    let $GetTemplateNameParameters = ({$Size, $FormType})
+    var $RelativeURL = `
+        tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
+        &obj=group
+        &decal
+        &src=${$DecalSourceValue}
+        &show
+        &res=300
+        &req=object
+    `.replace(/\s/g, "")
+    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7WhitInkImageURL ({
