@@ -343,7 +343,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
 
         var $RelativeURL = `
             tervisRender?
-            &layer=1
+            &layer=0
             &src=${$ArcedImageURLAsSourceValue}
             &layer=2
             &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
