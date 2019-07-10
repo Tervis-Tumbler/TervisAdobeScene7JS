@@ -329,14 +329,14 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue})
         })
     } else {
-        $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
+        var $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
             $Size,
             $FormType,
             $AsScene7SrcValue: true,
             $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue})
         })
 
-        $RelativeURL = `
+        var $RelativeURL = `
             tervisRender?
             &layer=1
             &src=${$ArcedImageURLAsSourceValue}
