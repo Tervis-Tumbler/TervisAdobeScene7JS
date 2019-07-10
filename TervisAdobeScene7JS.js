@@ -396,7 +396,8 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         $FormType,
         $Width: $VignetteWidth,
         $Height: $VignetteHeight,
-        $AsScene7SrcValue: true
+        $AsScene7SrcValue: true,
+        $IncludeDiecutterCalibrationLine: true
     })
 
     var $RelativeURL = `
