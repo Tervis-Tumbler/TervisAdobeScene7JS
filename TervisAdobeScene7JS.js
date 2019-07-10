@@ -336,7 +336,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue: true})
         })
 
-        $RelativeURL = `
+        var $RelativeURL = `
             tervisRender?
             &layer=1
             &src=${$ArcedImageURLAsSourceValue}
