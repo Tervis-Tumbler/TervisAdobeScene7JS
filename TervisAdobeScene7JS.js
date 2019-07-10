@@ -345,7 +345,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             tervisRender?
             &layer=0
             &src=${$ArcedImageURLAsSourceValue}
-            &layer=2
+            &layer=1
             &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
         `.replace(/\s/g, "")
 
