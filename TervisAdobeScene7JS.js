@@ -20,9 +20,20 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
     $Size,
     $FormType,
     $DecalSourceValue,
+    $Width,
+    $Height,
     $AsScene7SrcValue
 }) {
     let $GetTemplateNameParameters = ({$Size, $FormType})
+
+    var $WidthAndHeightStanza
+    if ($Width && $Height) {
+        $WidthAndHeightStanza = `
+            &wid=${$Width}
+            &hei=${$Height}
+        `.replace(/\s/g, "")
+    }
+
     var $RelativeURL = `
         tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
         &obj=group
@@ -31,6 +42,7 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
         &show
         &res=300
         &req=object
+        ${$WidthAndHeightStanza}
     `.replace(/\s/g, "")
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
@@ -279,22 +291,6 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function New_TervisAdobeScene7VirtualURL ({
-    $Size,
-    $FormType,
-    $VignetteSuffix,
-    $DecorationSrc,
-    $DecorationPositionXValue,
-    $ElementPathsToShow,
-    $AsScene7SrcValue
-}) {
-
-    var $RelativeURL = `
-        tervisRender/VIRTUALS_ALL_Background?
-        layer1
-    `.replace(/\s/g, "")
-}
-
 export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     $ProjectID,
     $AsScene7SrcValue,
@@ -324,6 +320,8 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
     $Size,
     $FormType,
     $IncludeDiecutterCalibrationLine,
+    $Width,
+    $Height,
     $AsScene7SrcValue
 }) {
     if (!$IncludeDiecutterCalibrationLine) {
@@ -331,6 +329,8 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             $Size,
             $FormType,
             $AsScene7SrcValue,
+            $Width,
+            $Height,
             $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue: true})
         })
     } else {
@@ -338,8 +338,15 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             $Size,
             $FormType,
             $AsScene7SrcValue: true,
+            $Width,
+            $Height,
             $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue: true})
         })
+
+        var $SizeStanza 
+        if ($Width && $Height){
+            $SizeStanza = `&size=${$Width},${$Height}`
+        }
 
         var $RelativeURL = `
             tervisRender?
@@ -347,6 +354,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             &src=${$ArcedImageURLAsSourceValue}
             &layer=1
             &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
+            ${$SizeStanza}
         `.replace(/\s/g, "")
 
         return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
@@ -365,30 +373,37 @@ export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL
     })
 }
 
-export function New_TervisAdobeScene7CustomyzerProjectProofImageURL({
+export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProjectID,
     $Size,
     $FormType,
-    $AsScene7RelativeUrl,
-    $AsVirtual
+    $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
-    var $PrintImageDimensions = $SizeAndFormTypeMetaData.PrintImageDimensions
-    
-//     if ($AsVirtual) {
-//         $VignettePositionRelativeToVirtualSampleBackground = $CustomyzerSizeAndFormTypeMetaData.VignettePositionRelativeToVirtualSampleBackground
-//         $OutputImageWidth = $VignettePositionRelativeToVirtualSampleBackground.Right - $VignettePositionRelativeToVirtualSampleBackground.Left
-//         $OutputImageHeight = $VignettePositionRelativeToVirtualSampleBackground.Bottom - $VignettePositionRelativeToVirtualSampleBackground.Top    
-//     }
-    
-//     $RelativeURL = @"
-// tervisRender?
-// &layer=0
-// &size=$($PrintImageDimensions.Width),$($PrintImageDimensions.Height)
-// &layer=1
-// &src=$(New-TervisAdobeScene7VignetteProofImageURL @GetTemplateNameParameters -ProjectID $ProjectID -AsScene7RelativeURL)
-// &layer=2
-// &src=$(New-TervisAdobeScene7DiecutterCalibrationCheckLineImageURL @GetTemplateNameParameters -AsScene7RelativeUrl)
-// $(if($AsVirtual) {"&wid=$OutputImageWidth&hid=$OutputImageHeight"})
-// "@ | Remove-WhiteSpace
+    var $VignettePositionRelativeToVirtualSampleBackground = $SizeAndFormTypeMetaData.VignettePositionRelativeToVirtualSampleBackground
+
+    var $VignetteWidth = $VignettePositionRelativeToVirtualSampleBackground.Right - $VignettePositionRelativeToVirtualSampleBackground.Left
+    var $VignetteHeight = $VignettePositionRelativeToVirtualSampleBackground.Bottom - $VignettePositionRelativeToVirtualSampleBackground.Top
+    var $ProofBackgroundWidth = 1650
+    var $ProofBackgroundHeight = 1275
+
+    $PosX = ($VignetteWidth/2) - ($ProofBackgroundWidth/2) + $VignettePositionRelativeToVirtualSampleBackground.Left
+    $PosY = ($VignetteHeight/2) - ($ProofBackgroundHeight/2) + $VignettePositionRelativeToVirtualSampleBackground.Top
+
+    var $ArcedProofImageURLAsScene7SrcValue = await New_TervisAdobeScene7ArcedProofImageURL({
+        $ProjectID,
+        $Width: $VignetteWidth,
+        $Height: $VignetteHeight,
+        $FormType,
+        $AsScene7SrcValue: true
+    })
+
+    var $RelativeURL = `
+        tervisRender/VIRTUALS_ALL_Background?
+        layer=1
+        &src=${$ArcedProofImageURLAsScene7SrcValue}
+        &pos=${$PosX},${$PosY}
+    `.replace(/\s/g, "")
+
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
