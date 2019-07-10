@@ -387,8 +387,8 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $ProofBackgroundWidth = 1650
     var $ProofBackgroundHeight = 1275
 
-    $PosX = ($VignetteWidth/2) - ($ProofBackgroundWidth/2) + $VignettePositionRelativeToVirtualSampleBackground.Left
-    $PosY = ($VignetteHeight/2) - ($ProofBackgroundHeight/2) + $VignettePositionRelativeToVirtualSampleBackground.Top
+    var $PosX = ($VignetteWidth/2) - ($ProofBackgroundWidth/2) + $VignettePositionRelativeToVirtualSampleBackground.Left
+    var $PosY = ($VignetteHeight/2) - ($ProofBackgroundHeight/2) + $VignettePositionRelativeToVirtualSampleBackground.Top
 
     var $ArcedProofImageURLAsScene7SrcValue = await New_TervisAdobeScene7ArcedProofImageURL({
         $ProjectID,
