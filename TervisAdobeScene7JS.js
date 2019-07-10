@@ -379,7 +379,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $FormType,
     $AsScene7SrcValue
 }) {
-    var $SizeAndFormTypeMetaData = Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
+    var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
     var $VignettePositionRelativeToVirtualSampleBackground = $SizeAndFormTypeMetaData.VignettePositionRelativeToVirtualSampleBackground
 
     var $VignetteWidth = $VignettePositionRelativeToVirtualSampleBackground.Right - $VignettePositionRelativeToVirtualSampleBackground.Left
