@@ -297,21 +297,26 @@ export function New_TervisAdobeScene7VirtualURL ({
 
 export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     $ProjectID,
-    $AsScene7SrcValue
+    $AsScene7SrcValue,
+    $BackgroundColorHex
 }) {
-    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL: `tervis/prj-${$ProjectID}`, $AsScene7SrcValue})
+    var $RelativeURL = `tervis/prj-${$ProjectID}`
+
+    if ($BackgroundColor){
+        $RelativeURL += `
+            ?
+            layer=0
+            &bgColor=${$BackgroundColorHex}
+        `.replace(/\s/g, "")
+    }
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
 export function New_TervisAdobeScene7CustomyzerArtboardProofImageURL ({
     $ProjectID,
     $AsScene7SrcValue
 }) {
-    var $ArtboardImageURL = New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $AsScene7SrcValue})
-    return `
-        ${$ArtboardImageURL}?
-        &layer=0
-        &bgColor=e6e7e8
-    `.replace(/\s/g, "")
+    return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $BackgroundColorHex: "e6e7e8", $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7ArcedProofImageURL ({
