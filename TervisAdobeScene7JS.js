@@ -302,7 +302,7 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
 }) {
     var $RelativeURL = `tervis/prj-${$ProjectID}`
 
-    if ($BackgroundColor){
+    if ($BackgroundColorHex){
         $RelativeURL += `
             ?
             layer=0
