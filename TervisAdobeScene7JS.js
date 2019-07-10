@@ -314,6 +314,40 @@ export function New_TervisAdobeScene7CustomyzerArtboardProofImageURL ({
     `.replace(/\s/g, "")
 }
 
+export async function New_TervisAdobeScene7ArcedProofImageURL ({
+    $ProjectID,
+    $Size,
+    $FormType,
+    $IncludeDiecutterCalibrationLine,
+    $AsScene7SrcValue
+}) {
+    if (!$IncludeDiecutterCalibrationLine) {
+        return New_TervisAdobeScene7ArcedImageURL({
+            $Size,
+            $FormType,
+            $AsScene7SrcValue,
+            $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue})
+        })
+    } else {
+        $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
+            $Size,
+            $FormType,
+            $AsScene7SrcValue: true,
+            $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue})
+        })
+
+        $RelativeURL = `
+            tervisRender?
+            &layer=1
+            &src=${$ArcedImageURLAsSourceValue}
+            &layer=2
+            &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
+        `.replace(/\s/g, "")
+
+        return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+    }
+}
+
 export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
     $Size,
     $FormType,
