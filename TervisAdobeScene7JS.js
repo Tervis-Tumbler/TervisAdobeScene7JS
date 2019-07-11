@@ -413,13 +413,10 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         $IncludeDiecutterCalibrationLine: true
     })
     
-    var $ProductVirtualTop = 299
-    var $ProductVirtualBottom = 1112
-    var $ProductVirtualLeft = 1148
-    var $ProductVirtualRight = 1558
-
-    var $ProductVirtualWidth = $ProductVirtualRight - $ProductVirtualLeft
-    var $ProductVirtualHeight = $ProductVirtualBottom - $ProductVirtualTop
+    var $ProductVirtualCenterPointX = 1349
+    var $ProductVirtualCenterPointY = 637
+    var $ProductVirtualHeight = 949
+    var $ProductVirtualWidth = 1079
 
     var $ProductVirtualURLAsSrcValue = await New_CustomyzerProjectProductVirtualURL({
         $ProjectID,
@@ -431,8 +428,8 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         $AsScene7SrcValue: true
     })
 
-    var $ProductVirtualPositionX = ($ProductVirtualWidth/2) - ($ProofBackgroundWidth/2) + $ProductVirtualLeft
-    var $ProductVirtualPositionY = ($ProductVirtualHeight/2) - ($ProofBackgroundHeight/2) + $ProductVirtualTop
+    var $ProductVirtualPositionX = $ProductVirtualCenterPointX - ($ProofBackgroundWidth/2)
+    var $ProductVirtualPositionY = $ProductVirtualCenterPointY - ($ProofBackgroundHeight/2)
 
     var $RelativeURL = `
         tervisRender/VIRTUALS_ALL_Background?
