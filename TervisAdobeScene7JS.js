@@ -440,7 +440,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         &src=${$ArcedProofImageURLAsScene7SrcValue}
         &pos=${$PosX},${$PosY}
         &layer=2
-        $src=${$ProductVirtualURLAsSrcValue}
+        &src=${$ProductVirtualURLAsSrcValue}
         &pos=${$ProductVirtualPositionX},${$ProductVirtualPositionY}
     `.replace(/\s/g, "")
 
