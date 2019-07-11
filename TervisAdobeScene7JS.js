@@ -377,6 +377,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProjectID,
     $Size,
     $FormType,
+    $ProductPositionValue,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
@@ -400,11 +401,33 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         $IncludeDiecutterCalibrationLine: true
     })
 
+    var $ProductVirtualURLAsSrcValue = await New_CustomyzerProjectProductVirtualURL({
+        $ProjectID,
+        $Size,
+        $FormType,
+        $DecorationPositionXValue: $ProductPositionValue,
+        $AsScene7SrcValue: true
+    })
+
+    var $ProductVirtualTop = 299
+    var $ProductVirtualBottom = 1112
+    var $ProductVirtualLeft = 1148
+    var $ProductVirtualRight = 1558
+
+    var $ProductVirtualWidth = $ProductVirtualRight - $ProductVirtualLeft
+    var $ProductVirtualHeight = $ProductVirtualBottom - $ProductVirtualTop
+
+    var $ProductVirtualPositionX = ($ProductVirtualWidth/2) - ($ProofBackgroundWidth/2) + $ProductVirtualLeft
+    var $ProductVirtualPositionY = ($ProductVirtualHeight/2) - ($ProofBackgroundHeight/2) + $ProductVirtualTop
+
     var $RelativeURL = `
         tervisRender/VIRTUALS_ALL_Background?
         layer=1
         &src=${$ArcedProofImageURLAsScene7SrcValue}
         &pos=${$PosX},${$PosY}
+        &layer=2
+        $src=${$ProductVirtualURLAsSrcValue}
+        &pos=${$ProductVirtualPositionX},${$ProductVirtualPositionY}
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
