@@ -393,22 +393,23 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
-    var $VignettePositionRelativeToVirtualSampleBackground = $SizeAndFormTypeMetaData.VignettePositionRelativeToVirtualSampleBackground
-
-    var $VignetteWidth = $VignettePositionRelativeToVirtualSampleBackground.Right - $VignettePositionRelativeToVirtualSampleBackground.Left
-    var $VignetteHeight = $VignettePositionRelativeToVirtualSampleBackground.Bottom - $VignettePositionRelativeToVirtualSampleBackground.Top
     var $ProofBackgroundWidth = 1650
     var $ProofBackgroundHeight = 1275
 
-    var $PosX = ($VignetteWidth/2) - ($ProofBackgroundWidth/2) + $VignettePositionRelativeToVirtualSampleBackground.Left
-    var $PosY = ($VignetteHeight/2) - ($ProofBackgroundHeight/2) + $VignettePositionRelativeToVirtualSampleBackground.Top
+    var $DecorationProofCenterPointYRelativeToVirtualBackground = $SizeAndFormTypeMetaData.DecorationProofCenterPointYRelativeToVirtualBackground
+    var $DecorationProofCenterPointXRelativeToVirtualBackground = 600
+    var $DecorationProofWidthOnVirtual = $SizeAndFormTypeMetaData.DecorationProofWidthOnVirtual    
+    var $DecorationProofPositionX = $DecorationProofCenterPointXRelativeToVirtualBackground - ($ProofBackgroundWidth/2)
+    var $DecorationProofPositionY = $DecorationProofCenterPointYRelativeToVirtualBackground - ($ProofBackgroundHeight/2)
+    var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
+    var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
 
     var $ArcedProofImageURLAsScene7SrcValue = await New_TervisAdobeScene7ArcedProofImageURL({
         $ProjectID,
         $Size,
         $FormType,
-        $Width: $VignetteWidth,
-        $Height: $VignetteHeight,
+        $Width: $DecorationProofWidthOnVirtual,
+        $Height: $DecorationProofHeightOnVirtual,
         $AsScene7SrcValue: true,
         $IncludeDiecutterCalibrationLine: true
     })
@@ -435,7 +436,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         tervisRender/VIRTUALS_ALL_Background?
         layer=1
         &src=${$ArcedProofImageURLAsScene7SrcValue}
-        &pos=${$PosX},${$PosY}
+        &pos=${$DecorationProofPositionX},${$DecorationProofPositionY}
         &layer=2
         &src=${$ProductVirtualURLAsSrcValue}
         &pos=${$ProductVirtualPositionX},${$ProductVirtualPositionY}
