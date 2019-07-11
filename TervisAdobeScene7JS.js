@@ -1,6 +1,7 @@
 import {
     Get_CustomyzerImageTemplateName,
-    Get_SizeAndFormTypeMetaDataUsingIndex
+    Get_SizeAndFormTypeMetaDataUsingIndex,
+    New_CustomyzerProjectProductVirtualURL
 } from '@tervis/terviscustomyzerjs/TervisCustomyzerJS.js'
 
 export async function New_TervisAdobeScene7ColorInkImageURL ({
@@ -16,6 +17,18 @@ export async function New_TervisAdobeScene7ColorInkImageURL ({
     }
 }
 
+export function New_AdobeScene7URLWidthAndHeightStanza ({
+    $Width,
+    $Height,
+}) {
+    if ($Width && $Height) {
+        return `
+            &wid=${$Width}
+            &hei=${$Height}
+        `.replace(/\s/g, "")
+    }
+}
+
 export async function New_TervisAdobeScene7ArcedImageURL ({
     $Size,
     $FormType,
@@ -26,14 +39,8 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
 }) {
     let $GetTemplateNameParameters = ({$Size, $FormType})
 
-    var $WidthAndHeightStanza
-    if ($Width && $Height) {
-        $WidthAndHeightStanza = `
-            &wid=${$Width}
-            &hei=${$Height}
-        `.replace(/\s/g, "")
-    }
-
+    var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
+    
     var $RelativeURL = `
         tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
         &obj=group
@@ -262,6 +269,8 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
     $DecorationSrc,
     $DecorationPositionXValue,
     $ElementPathsToShow,
+    $Width,
+    $Height,
     $AsScene7SrcValue
 }) {
     var $ShowObjectsURLFragment = $ElementPathsToShow.map(
@@ -280,10 +289,13 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
         `.replace(/\s/g, "")
     }
 
+    var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
+
     var $RelativeURL = `
         tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
         ${$ShowObjectsURLFragment}
         ${$DecorationStanza}
+        ${$WidthAndHeightStanza}
         &obj=MAIN
         &req=object
     `.replace(/\s/g, "")
@@ -377,7 +389,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProjectID,
     $Size,
     $FormType,
-    $ProductPositionValue,
+    $ProductDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
@@ -400,15 +412,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         $AsScene7SrcValue: true,
         $IncludeDiecutterCalibrationLine: true
     })
-
-    var $ProductVirtualURLAsSrcValue = await New_CustomyzerProjectProductVirtualURL({
-        $ProjectID,
-        $Size,
-        $FormType,
-        $DecorationPositionXValue: $ProductPositionValue,
-        $AsScene7SrcValue: true
-    })
-
+    
     var $ProductVirtualTop = 299
     var $ProductVirtualBottom = 1112
     var $ProductVirtualLeft = 1148
@@ -416,6 +420,16 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
 
     var $ProductVirtualWidth = $ProductVirtualRight - $ProductVirtualLeft
     var $ProductVirtualHeight = $ProductVirtualBottom - $ProductVirtualTop
+
+    var $ProductVirtualURLAsSrcValue = await New_CustomyzerProjectProductVirtualURL({
+        $ProjectID,
+        $Size,
+        $FormType,
+        $DecorationPositionXValue: $ProductDecorationPositionXValue,
+        $Width: $ProductVirtualWidth,
+        $Height: $ProductVirtualHeight,
+        $AsScene7SrcValue: true
+    })
 
     var $ProductVirtualPositionX = ($ProductVirtualWidth/2) - ($ProofBackgroundWidth/2) + $ProductVirtualLeft
     var $ProductVirtualPositionY = ($ProductVirtualHeight/2) - ($ProofBackgroundHeight/2) + $ProductVirtualTop
