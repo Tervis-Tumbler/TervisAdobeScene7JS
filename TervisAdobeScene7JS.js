@@ -399,6 +399,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProjectID,
     $Size,
     $FormType,
+    $ProductVirtualURLAsSourceValue,
     $ProductDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
@@ -433,21 +434,23 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         })
     }
     
+    var $ProductVirtualWidth = 1079
+    var $ProductVirtualHeight = 949
+
+    if (!$ProductVirtualURLAsSourceValue) {
+        $ProductVirtualURLAsSourceValue = await New_CustomyzerProjectProductVirtualURL({
+            $ProjectID,
+            $Size,
+            $FormType,
+            $DecorationPositionXValue: $ProductDecorationPositionXValue,
+            $Width: $ProductVirtualWidth,
+            $Height: $ProductVirtualHeight,
+            $AsScene7SrcValue: true
+        })
+    }
+
     var $ProductVirtualCenterPointX = 1349
     var $ProductVirtualCenterPointY = 637
-    var $ProductVirtualHeight = 949
-    var $ProductVirtualWidth = 1079
-
-    var $ProductVirtualURLAsSrcValue = await New_CustomyzerProjectProductVirtualURL({
-        $ProjectID,
-        $Size,
-        $FormType,
-        $DecorationPositionXValue: $ProductDecorationPositionXValue,
-        $Width: $ProductVirtualWidth,
-        $Height: $ProductVirtualHeight,
-        $AsScene7SrcValue: true
-    })
-
     var $ProductVirtualPositionX = $ProductVirtualCenterPointX - ($ProofBackgroundWidth/2)
     var $ProductVirtualPositionY = $ProductVirtualCenterPointY - ($ProofBackgroundHeight/2)
 
@@ -457,7 +460,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         &src=${$DecorationProofImageURLAsSourceValue}
         &pos=${$DecorationProofPositionX},${$DecorationProofPositionY}
         &layer=2
-        &src=${$ProductVirtualURLAsSrcValue}
+        &src=${$ProductVirtualURLAsSourceValue}
         &pos=${$ProductVirtualPositionX},${$ProductVirtualPositionY}
     `.replace(/\s/g, "")
 
