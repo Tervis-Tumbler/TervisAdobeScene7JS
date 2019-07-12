@@ -49,7 +49,7 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
         &show
         &res=300
         &req=object
-        ${$WidthAndHeightStanza}
+        ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
     `.replace(/\s/g, "")
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
@@ -293,9 +293,9 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
 
     var $RelativeURL = `
         tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
-        ${$ShowObjectsURLFragment}
-        ${$DecorationStanza}
-        ${$WidthAndHeightStanza}
+        ${$ShowObjectsURLFragment ? $ShowObjectsURLFragment : ""}
+        ${$DecorationStanza ? $DecorationStanza : ""}
+        ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
         &obj=MAIN
         &req=object
     `.replace(/\s/g, "")
@@ -322,7 +322,7 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
             ?
             layer=0
             &bgColor=${$BackgroundColorHex}
-            ${$SizeStanza}
+            ${$SizeStanza ? $SizeStanza : ""}
         `.replace(/\s/g, "")
     }
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
@@ -376,7 +376,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
             &src=${$ArcedImageURLAsSourceValue}
             &layer=1
             &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
-            ${$SizeStanza}
+            ${$SizeStanza ? $SizeStanza : ""}
         `.replace(/\s/g, "")
 
         return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
