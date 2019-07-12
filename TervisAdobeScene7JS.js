@@ -305,16 +305,24 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
 
 export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     $ProjectID,
+    $Width,
+    $Height,
     $AsScene7SrcValue,
     $BackgroundColorHex
 }) {
     var $RelativeURL = `tervis/prj-${$ProjectID}`
+    
+    var $SizeStanza 
+    if ($Width && $Height){
+        $SizeStanza = `&size=${$Width},${$Height}`
+    }
 
     if ($BackgroundColorHex){
         $RelativeURL += `
             ?
             layer=0
             &bgColor=${$BackgroundColorHex}
+            ${$SizeStanza}
         `.replace(/\s/g, "")
     }
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
@@ -322,9 +330,11 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
 
 export function New_TervisAdobeScene7CustomyzerArtboardProofImageURL ({
     $ProjectID,
+    $Width,
+    $Height,
     $AsScene7SrcValue
 }) {
-    return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $BackgroundColorHex: "e6e7e8", $AsScene7SrcValue})
+    return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $Width, $Height, $BackgroundColorHex: "e6e7e8", $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7ArcedProofImageURL ({
@@ -404,15 +414,24 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
     var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
 
-    var $ArcedProofImageURLAsScene7SrcValue = await New_TervisAdobeScene7ArcedProofImageURL({
-        $ProjectID,
-        $Size,
-        $FormType,
-        $Width: $DecorationProofWidthOnVirtual,
-        $Height: $DecorationProofHeightOnVirtual,
-        $AsScene7SrcValue: true,
-        $IncludeDiecutterCalibrationLine: true
-    })
+    if ($FormType !== "SS") {
+        var $DecorationProofImageURLAsSourceValue = await New_TervisAdobeScene7ArcedProofImageURL({
+            $ProjectID,
+            $Size,
+            $FormType,
+            $Width: $DecorationProofWidthOnVirtual,
+            $Height: $DecorationProofHeightOnVirtual,
+            $AsScene7SrcValue: true,
+            $IncludeDiecutterCalibrationLine: true
+        })
+    } else {
+        var $DecorationProofImageURLAsSourceValue = New_TervisAdobeScene7CustomyzerArtboardProofImageURL({
+            $ProjectID,
+            $Width: $DecorationProofWidthOnVirtual,
+            $Height: $DecorationProofHeightOnVirtual,
+            $AsScene7SrcValue: true
+        })
+    }
     
     var $ProductVirtualCenterPointX = 1349
     var $ProductVirtualCenterPointY = 637
@@ -435,7 +454,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $RelativeURL = `
         tervisRender/VIRTUALS_ALL_Background?
         layer=1
-        &src=${$ArcedProofImageURLAsScene7SrcValue}
+        &src=${$DecorationProofImageURLAsSourceValue}
         &pos=${$DecorationProofPositionX},${$DecorationProofPositionY}
         &layer=2
         &src=${$ProductVirtualURLAsSrcValue}
