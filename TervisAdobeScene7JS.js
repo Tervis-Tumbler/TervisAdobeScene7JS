@@ -430,7 +430,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
     var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
 
-    if (!DecorationProofImageURLAsSourceValue) {
+    if (!$DecorationProofImageURLAsSourceValue) {
         if ($FormType !== "SS") {
             $DecorationProofImageURLAsSourceValue = await New_TervisAdobeScene7ArcedProofImageURL({
                 $ProjectID,
