@@ -307,34 +307,44 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     $ProjectID,
     $Width,
     $Height,
-    $AsScene7SrcValue,
-    $BackgroundColorHex
+    $AsScene7SrcValue
 }) {
-    var $RelativeURL = `tervis/prj-${$ProjectID}`
-    
-    var $SizeStanza 
-    if ($Width && $Height){
-        $SizeStanza = `&size=${$Width},${$Height}`
-    }
+    var $SizeStanza = New_AdobeScene7SizeStanza({$Width, $Height})
+    var $RelativeURL = `
+        tervis/prj-${$ProjectID}
+        ${$SizeStanza ? `?${$SizeStanza}` : ""}
+    `.replace(/\s/g, "")
 
-    if ($BackgroundColorHex){
-        $RelativeURL += `
-            ?
-            layer=0
-            &bgColor=${$BackgroundColorHex}
-            ${$SizeStanza ? $SizeStanza : ""}
-        `.replace(/\s/g, "")
-    }
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function New_TervisAdobeScene7CustomyzerArtboardProofImageURL ({
-    $ProjectID,
-    $Width,
-    $Height,
+
+export async function New_TervisAdobeScene7ArtboardProofBackgroundImageURL ({
+    $Size,
+    $FormType,
     $AsScene7SrcValue
 }) {
-    return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $Width, $Height, $BackgroundColorHex: "e6e7e8", $AsScene7SrcValue})
+    var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
+    var $ArtBoardDimensions = $SizeAndFormTypeMetaData.ArtBoardDimensions
+    var $BackgroundColorHex = "e6e7e8"
+    var $SizeStanza = New_AdobeScene7SizeStanza({$Width: $ArtBoardDimensions.Width, $Height: $ArtBoardDimensions.Height})
+
+    var $RelativeURL = `
+    tervis?
+    layer=0
+    &bgColor=${$BackgroundColorHex}
+    ${$SizeStanza ? $SizeStanza : ""}
+    `
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+}
+
+export function New_AdobeScene7SizeStanza ({
+    $Width,
+    $Height
+}) {
+    if ($Width && $Height){
+        $SizeStanza = `&size=${$Width},${$Height}`
+    }
 }
 
 export async function New_TervisAdobeScene7ArcedProofImageURL ({
@@ -346,41 +356,46 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
     $Height,
     $AsScene7SrcValue
 }) {
-    if (!$IncludeDiecutterCalibrationLine) {
-        return New_TervisAdobeScene7ArcedImageURL({
-            $Size,
-            $FormType,
-            $AsScene7SrcValue,
-            $Width,
-            $Height,
-            $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue: true})
-        })
-    } else {
-        var $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
-            $Size,
-            $FormType,
-            $AsScene7SrcValue: true,
-            $Width,
-            $Height,
-            $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardProofImageURL({$ProjectID, $AsScene7SrcValue: true})
-        })
+    var $ArtboardProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+    var $ArcedProofBackgroundImageURLAsSourceValue = New_TervisAdobeScene7ArcedImageURL({
+        $Size,
+        $FormType,
+        $AsScene7SrcValue: true,
+        $Width,
+        $Height,
+        $DecalSourceValue: $ArtboardProofBackgroundImageURLAsSourceValue
+    })
 
-        var $SizeStanza 
-        if ($Width && $Height){
-            $SizeStanza = `&size=${$Width},${$Height}`
-        }
+    var $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
+        $Size,
+        $FormType,
+        $AsScene7SrcValue: true,
+        $Width,
+        $Height,
+        $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $AsScene7SrcValue: true})
+    })
 
-        var $RelativeURL = `
-            tervisRender?
-            &layer=0
-            &src=${$ArcedImageURLAsSourceValue}
-            &layer=1
-            &src=${await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})}
+    var $DiecutterCalibrationLineStanza
+    if ($IncludeDiecutterCalibrationLine) {
+        var $SizeStanza = New_AdobeScene7SizeStanza({$Width, $Height})
+        var $DiecutterCalibrationCheckLineImageURL = await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+        $DiecutterCalibrationLineStanza = `
+            &layer=3
+            &src=${$DiecutterCalibrationCheckLineImageURL}
             ${$SizeStanza ? $SizeStanza : ""}
-        `.replace(/\s/g, "")
-
-        return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+        `
     }
+    
+    var $RelativeURL = `
+        tervisRender?
+        &layer=0
+        &src=${$ArcedProofBackgroundImageURLAsSourceValue}
+        &layer=1
+        &src=${$ArcedImageURLAsSourceValue}
+        ${$DiecutterCalibrationLineStanza ? $DiecutterCalibrationLineStanza : ""}
+    `.replace(/\s/g, "")
+
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
@@ -399,8 +414,9 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProjectID,
     $Size,
     $FormType,
+    $DecorationProofImageURLAsSourceValue,
     $ProductVirtualURLAsSourceValue,
-    $ProductDecorationPositionXValue,
+    $ProductVirtualDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
@@ -415,23 +431,25 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
     var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
 
-    if ($FormType !== "SS") {
-        var $DecorationProofImageURLAsSourceValue = await New_TervisAdobeScene7ArcedProofImageURL({
-            $ProjectID,
-            $Size,
-            $FormType,
-            $Width: $DecorationProofWidthOnVirtual,
-            $Height: $DecorationProofHeightOnVirtual,
-            $AsScene7SrcValue: true,
-            $IncludeDiecutterCalibrationLine: true
-        })
-    } else {
-        var $DecorationProofImageURLAsSourceValue = New_TervisAdobeScene7CustomyzerArtboardProofImageURL({
-            $ProjectID,
-            $Width: $DecorationProofWidthOnVirtual,
-            $Height: $DecorationProofHeightOnVirtual,
-            $AsScene7SrcValue: true
-        })
+    if (!DecorationProofImageURLAsSourceValue) {
+        if ($FormType !== "SS") {
+            $DecorationProofImageURLAsSourceValue = await New_TervisAdobeScene7ArcedProofImageURL({
+                $ProjectID,
+                $Size,
+                $FormType,
+                $Width: $DecorationProofWidthOnVirtual,
+                $Height: $DecorationProofHeightOnVirtual,
+                $AsScene7SrcValue: true,
+                $IncludeDiecutterCalibrationLine: true
+            })
+        } else {
+            $DecorationProofImageURLAsSourceValue = New_TervisAdobeScene7CustomyzerArtboardProofImageURL({
+                $ProjectID,
+                $Width: $DecorationProofWidthOnVirtual,
+                $Height: $DecorationProofHeightOnVirtual,
+                $AsScene7SrcValue: true
+            })
+        }
     }
     
     var $ProductVirtualWidth = 1079
@@ -442,7 +460,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
             $ProjectID,
             $Size,
             $FormType,
-            $DecorationPositionXValue: $ProductDecorationPositionXValue,
+            $DecorationPositionXValue: $ProductVirtualDecorationPositionXValue,
             $Width: $ProductVirtualWidth,
             $Height: $ProductVirtualHeight,
             $AsScene7SrcValue: true
