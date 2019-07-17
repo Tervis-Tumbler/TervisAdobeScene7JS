@@ -318,7 +318,6 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-
 export async function New_TervisAdobeScene7ArtboardProofBackgroundImageURL ({
     $Size,
     $FormType,
@@ -357,7 +356,7 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
     $AsScene7SrcValue
 }) {
     var $ArtboardProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({$Size, $FormType, $AsScene7SrcValue: true})
-    var $ArcedProofBackgroundImageURLAsSourceValue = New_TervisAdobeScene7ArcedImageURL({
+    var $ArcedProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
         $Size,
         $FormType,
         $AsScene7SrcValue: true,
