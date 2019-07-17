@@ -343,7 +343,7 @@ export function New_AdobeScene7SizeStanza ({
     $Height
 }) {
     if ($Width && $Height){
-        $SizeStanza = `&size=${$Width},${$Height}`
+        return `&size=${$Width},${$Height}`
     }
 }
 
