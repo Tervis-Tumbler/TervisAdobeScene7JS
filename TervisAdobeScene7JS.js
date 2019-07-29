@@ -346,8 +346,9 @@ export function New_AdobeScene7SizeStanza ({
     }
 }
 
-export async function New_TervisAdobeScene7ArcedProofImageURL ({
-    $ProjectID,
+export async function New_TervisAdobeScene7ProofImageURL ({
+    $DecorationImageURLAsSourceValue,
+    $ArcedDecoration,
     $Size,
     $FormType,
     $IncludeDiecutterCalibrationLine,
@@ -355,24 +356,17 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
     $Height,
     $AsScene7SrcValue
 }) {
-    var $ArtboardProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({$Size, $FormType, $AsScene7SrcValue: true})
-    var $ArcedProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
-        $Size,
-        $FormType,
-        $AsScene7SrcValue: true,
-        $Width,
-        $Height,
-        $DecalSourceValue: $ArtboardProofBackgroundImageURLAsSourceValue
-    })
-
-    var $ArcedImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
-        $Size,
-        $FormType,
-        $AsScene7SrcValue: true,
-        $Width,
-        $Height,
-        $DecalSourceValue: New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID, $AsScene7SrcValue: true})
-    })
+    var $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+    if ($ArcedDecoration) {
+        $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
+            $Size,
+            $FormType,
+            $AsScene7SrcValue: true,
+            $Width,
+            $Height,
+            $DecalSourceValue: $ProofBackgroundImageURLAsSourceValue
+        })
+    }
 
     var $DiecutterCalibrationLineStanza
     if ($IncludeDiecutterCalibrationLine) {
@@ -388,9 +382,9 @@ export async function New_TervisAdobeScene7ArcedProofImageURL ({
     var $RelativeURL = `
         tervisRender?
         &layer=0
-        &src=${$ArcedProofBackgroundImageURLAsSourceValue}
+        &src=${$ProofBackgroundImageURLAsSourceValue}
         &layer=1
-        &src=${$ArcedImageURLAsSourceValue}
+        &src=${$DecorationImageURLAsSourceValue}
         ${$DiecutterCalibrationLineStanza ? $DiecutterCalibrationLineStanza : ""}
     `.replace(/\s/g, "")
 
@@ -424,13 +418,15 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
 
     var $DecorationProofCenterPointYRelativeToVirtualBackground = $SizeAndFormTypeMetaData.DecorationProofCenterPointYRelativeToVirtualBackground
     var $DecorationProofCenterPointXRelativeToVirtualBackground = 600
-    var $DecorationProofWidthOnVirtual = $SizeAndFormTypeMetaData.DecorationProofWidthOnVirtual    
+
     var $DecorationProofPositionX = $DecorationProofCenterPointXRelativeToVirtualBackground - ($ProofBackgroundWidth/2)
     var $DecorationProofPositionY = $DecorationProofCenterPointYRelativeToVirtualBackground - ($ProofBackgroundHeight/2)
-    var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
-    var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
 
     if (!$DecorationProofImageURLAsSourceValue) {
+        var $DecorationProofWidthOnVirtual = $SizeAndFormTypeMetaData.DecorationProofWidthOnVirtual    
+        var $DecorationProofAspectRatio = $SizeAndFormTypeMetaData.PrintImageDimensions.Width / $SizeAndFormTypeMetaData.PrintImageDimensions.Height
+        var $DecorationProofHeightOnVirtual = Math.round($DecorationProofWidthOnVirtual / $DecorationProofAspectRatio)
+        
         if ($FormType !== "SS") {
             $DecorationProofImageURLAsSourceValue = await New_TervisAdobeScene7ArcedProofImageURL({
                 $ProjectID,
