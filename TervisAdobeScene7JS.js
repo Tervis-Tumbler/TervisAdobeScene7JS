@@ -321,12 +321,17 @@ export function New_TervisAdobeScene7CustomyzerArtboardImageURL ({
 export async function New_TervisAdobeScene7ArtboardProofBackgroundImageURL ({
     $Size,
     $FormType,
+    $Width,
+    $Height,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
     var $ArtBoardDimensions = $SizeAndFormTypeMetaData.ArtBoardDimensions
     var $BackgroundColorHex = "e6e7e8"
-    var $SizeStanza = New_AdobeScene7SizeStanza({$Width: $ArtBoardDimensions.Width, $Height: $ArtBoardDimensions.Height})
+    var $SizeStanza = New_AdobeScene7SizeStanza({
+        $Width: $Width ? $Width : $ArtBoardDimensions.Width,
+        $Height: $Height ? $Height : $ArtBoardDimensions.Height
+    })
 
     var $RelativeURL = `
     tervis?
@@ -356,7 +361,14 @@ export async function New_TervisAdobeScene7ProofImageURL ({
     $Height,
     $AsScene7SrcValue
 }) {
-    var $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+    var $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
+        $Size,
+        $FormType,
+        $Width,
+        $Height,
+        $AsScene7SrcValue: true
+    })
+
     if ($ArcedDecoration) {
         $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
             $Size,
@@ -446,11 +458,10 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
             })
         }
     }
-    
-    var $ProductVirtualWidth = 1079
-    var $ProductVirtualHeight = 949
 
     if (!$ProductVirtualURLAsSourceValue) {
+        var $ProductVirtualWidth = 1079
+        var $ProductVirtualHeight = 949
         $ProductVirtualURLAsSourceValue = await New_CustomyzerProjectProductVirtualURL({
             $ProjectID,
             $Size,
