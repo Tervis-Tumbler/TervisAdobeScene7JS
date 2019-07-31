@@ -361,22 +361,29 @@ export async function New_TervisAdobeScene7ProofImageURL ({
     $Height,
     $AsScene7SrcValue
 }) {
-    var $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
-        $Size,
-        $FormType,
-        $Width,
-        $Height,
-        $AsScene7SrcValue: true
-    })
-
+    var $ProofBackgroundImageURLAsSourceValue
     if ($ArcedDecoration) {
+        var $ProofArtboardBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
+            $Size,
+            $FormType,
+            $AsScene7SrcValue: true
+        })
+
         $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
             $Size,
             $FormType,
             $AsScene7SrcValue: true,
             $Width,
             $Height,
-            $DecalSourceValue: $ProofBackgroundImageURLAsSourceValue
+            $DecalSourceValue: $ProofArtboardBackgroundImageURLAsSourceValue
+        })
+    } else {
+        $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
+            $Size,
+            $FormType,
+            $Width,
+            $Height,
+            $AsScene7SrcValue: true
         })
     }
 
