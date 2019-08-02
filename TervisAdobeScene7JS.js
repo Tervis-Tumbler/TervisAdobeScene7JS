@@ -436,7 +436,9 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $ProofBackgroundHeight = 1275
 
     var $DecorationProofCenterPointYRelativeToVirtualBackground = $SizeAndFormTypeMetaData.DecorationProofCenterPointYRelativeToVirtualBackground
-    var $DecorationProofCenterPointXRelativeToVirtualBackground = 600
+    var $DecorationProofCenterPointXRelativeToVirtualBackground = $SizeAndFormTypeMetaData.DecorationProofCenterPointXRelativeToVirtualBackground ?
+        $SizeAndFormTypeMetaData.DecorationProofCenterPointXRelativeToVirtualBackground :
+        600
 
     var $DecorationProofPositionX = $DecorationProofCenterPointXRelativeToVirtualBackground - ($ProofBackgroundWidth/2)
     var $DecorationProofPositionY = $DecorationProofCenterPointYRelativeToVirtualBackground - ($ProofBackgroundHeight/2)
