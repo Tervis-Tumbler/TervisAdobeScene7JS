@@ -4,8 +4,7 @@ import {
 
 import {
     Get_TervisProductImageTemplateName,
-    Get_TervisProductMetaDataUsingIndex,
-    New_CustomyzerProjectProductVirtualURL
+    Get_TervisProductMetaDataUsingIndex
 } from '@tervis/tervisproductmetadata'
 
 export async function New_TervisAdobeScene7ColorInkImageURL ({
