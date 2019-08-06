@@ -1,4 +1,10 @@
 import {
+    New_AdobeScene7URLWidthAndHeightStanza,
+    New_AdobeScene7SizeStanza,
+    New_AdobeScene7URL
+} from '@tervis/adobescene7js'
+
+import {
     New_CustomyzerProjectProductVirtualURL
 } from '@tervis/terviscustomyzerjs'
 
@@ -17,18 +23,6 @@ export async function New_TervisAdobeScene7ColorInkImageURL ({
         return New_TervisAdobeScene7ArcedImageURL({$Size, $FormType, $DecalSourceValue: $ArtboardImageURLAsSrcValue})
     } else if ($FormType === "SS") {
         return New_TervisAdobeScene7CustomyzerArtboardImageURL({$ProjectID})
-    }
-}
-
-export function New_AdobeScene7URLWidthAndHeightStanza ({
-    $Width,
-    $Height,
-}) {
-    if ($Width && $Height) {
-        return `
-            &wid=${$Width}
-            &hei=${$Height}
-        `.replace(/\s/g, "")
     }
 }
 
@@ -181,29 +175,13 @@ export function New_TervisAdobeScene7URL ({
     $AsScene7SrcValue,
     $ExternalURL
 }) {
-    if ($AsScene7SrcValue) {
-        if ($Type === "ImageServer") {
-            return `is{${$RelativeURL}}`
-        } else if ($Type === "ImageRender") {
-            return `ir{${$RelativeURL}}`
-        } else if ($ExternalURL) {
-            var $ExternalURLWithoutHttps = $ExternalURL.replace(/^https/i, "http")
-            return `{${$ExternalURLWithoutHttps}}`
-        }
-    } else {
-        var $URL
-        if ($Type === "ImageServer") {
-            $URL = new URL(`https://images.tervis.com/is/image/${$RelativeURL}`)
-        } else if ($Type === "ImageRender") {
-            $URL = new URL(`https://images.tervis.com/ir/render/${$RelativeURL}`)
-        }
-
-        var $URLSearchParams = new URLSearchParams($URL.search)
-        $URLSearchParams.append('scl', 1)
-        $URLSearchParams.append('fmt', 'png-alpha')
-        $URL.search = `?${$URLSearchParams.toString()}`
-        return decodeURIComponent($URL.href)
-    }
+    New_AdobeScene7URL({
+        $Type,
+        $RelativeURL,
+        $AsScene7SrcValue,
+        $ExternalURL,
+        $Host: "images.tervis.com"
+    })
 }
 
 export function New_TervisAdobeScene7VignetteContentsURL({
@@ -343,15 +321,6 @@ export async function New_TervisAdobeScene7ArtboardProofBackgroundImageURL ({
     ${$SizeStanza ? $SizeStanza : ""}
     `
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
-}
-
-export function New_AdobeScene7SizeStanza ({
-    $Width,
-    $Height
-}) {
-    if ($Width && $Height){
-        return `&size=${$Width},${$Height}`
-    }
 }
 
 export async function New_TervisAdobeScene7ProofImageURL ({
