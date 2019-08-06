@@ -1,8 +1,12 @@
 import {
-    Get_CustomyzerImageTemplateName,
-    Get_SizeAndFormTypeMetaDataUsingIndex,
     New_CustomyzerProjectProductVirtualURL
-} from '@tervis/terviscustomyzerjs/TervisCustomyzerJS.js'
+} from '@tervis/terviscustomyzerjs'
+
+import {
+    Get_TervisProductImageTemplateName,
+    Get_TervisProductMetaDataUsingIndex,
+    New_CustomyzerProjectProductVirtualURL
+} from '@tervis/tervisproductmetadata'
 
 export async function New_TervisAdobeScene7ColorInkImageURL ({
     $ProjectID,
@@ -42,7 +46,7 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
     var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
     
     var $RelativeURL = `
-        tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
+        tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
         &obj=group
         &decal
         &src=${$DecalSourceValue}
@@ -66,16 +70,16 @@ export async function New_TervisAdobeScene7WhitInkImageURL ({
         return `
 http://images.tervis.com/is/image/tervis?
 src=(
-    http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Mask"})}?
+    http://images.tervis.com/is/image/tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Mask"})}?
     &layer=1
     &mask=is(
         tervisRender?
         &src=ir(
-            tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
+            tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
             &obj=group
             &decal
             &src=is(
-                tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
+                tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
                 .BG
                 &layer=5
                 &anchor=0,0
@@ -143,10 +147,10 @@ src=(
         return `
 http://images.tervis.com/is/image/tervis?
 src=(
-    http://images.tervis.com/is/image/tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Mask"})}?
+    http://images.tervis.com/is/image/tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Mask"})}?
     &layer=1
     &mask=is(
-        tervisRender/${await Get_CustomyzerImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
+        tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Base"})}?
         .BG
         &layer=5
         &anchor=0,0
@@ -325,7 +329,7 @@ export async function New_TervisAdobeScene7ArtboardProofBackgroundImageURL ({
     $Height,
     $AsScene7SrcValue
 }) {
-    var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
+    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
     var $ArtBoardDimensions = $SizeAndFormTypeMetaData.ArtBoardDimensions
     var $BackgroundColorHex = "e6e7e8"
     var $SizeStanza = New_AdobeScene7SizeStanza({
@@ -417,7 +421,7 @@ export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL
 }) {
     return New_TervisAdobeScene7URL({
         $Type: "ImageServer",
-        $RelativeURL: `tervisRender/${await Get_CustomyzerImageTemplateName({ $Size, $FormType, $TemplateType: "DiecutterCalibrationCheckLine"})}`,
+        $RelativeURL: `tervisRender/${await Get_TervisProductImageTemplateName({ $Size, $FormType, $TemplateType: "DiecutterCalibrationCheckLine"})}`,
         $AsScene7SrcValue
     })
 }
@@ -431,7 +435,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $ProductVirtualDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
-    var $SizeAndFormTypeMetaData = await Get_SizeAndFormTypeMetaDataUsingIndex({$Size, $FormType})
+    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
     var $ProofBackgroundWidth = 1650
     var $ProofBackgroundHeight = 1275
 
