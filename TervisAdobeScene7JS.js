@@ -5,17 +5,9 @@ import {
 } from '@tervis/adobescene7js'
 
 import {
-    New_CustomyzerProjectProductVirtualURL
-} from '@tervis/terviscustomyzerjs'
-
-import {
     Get_TervisProductImageTemplateName,
     Get_TervisProductMetaDataUsingIndex
 } from '@tervis/tervisproductmetadata'
-
-import {
-    New_TervisAdobeScene7CustomyzerArtboardImageURL
-} from '@tervis/tervisadobescene7customyzerjs'
 
 export function New_TervisAdobeScene7URL ({
     $Type,
