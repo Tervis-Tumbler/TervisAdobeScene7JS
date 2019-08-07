@@ -108,7 +108,7 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function New_TervisAdobeScene7ProductVirtualURL ({
+export function New_TervisAdobeScene7ProductVignetteImageURL ({
     $Size,
     $FormType,
     $VignetteSuffix,
@@ -249,8 +249,8 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $Size,
     $FormType,
     $DecorationProofImageURLAsSourceValue,
-    $ProductVirtualURLAsSourceValue,
-    $ProductVirtualDecorationPositionXValue,
+    $ProductVignetteImageURLAsSourceValue,
+    $ProductVignetteDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
@@ -265,15 +265,15 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $DecorationProofPositionX = $DecorationProofCenterPointXRelativeToVirtualBackground - ($ProofBackgroundWidth/2)
     var $DecorationProofPositionY = $DecorationProofCenterPointYRelativeToVirtualBackground - ($ProofBackgroundHeight/2)
 
-    var $ProductVirtualCenterPointX = 1349
-    var $ProductVirtualCenterPointY = 637
-    var $ProductVirtualPositionX = $ProductVirtualCenterPointX - ($ProofBackgroundWidth/2)
-    var $ProductVirtualPositionY = $ProductVirtualCenterPointY - ($ProofBackgroundHeight/2)
+    var $ProductVignetteImageCenterPointX = 1349
+    var $ProductVignetteImageCenterPointY = 637
+    var $ProductVignetteImagePositionX = $ProductVignetteImageCenterPointX - ($ProofBackgroundWidth/2)
+    var $ProductVignetteImagePositionY = $ProductVignetteImageCenterPointY - ($ProofBackgroundHeight/2)
 
-    if ($ProductVirtualDecorationPositionXValue) {
-        $ProductVirtualURLAsSourceValue = $ProductVirtualURLAsSourceValue.replace(
+    if ($ProductVignetteDecorationPositionXValue) {
+        $ProductVignetteImageURLAsSourceValue = $ProductVignetteImageURLAsSourceValue.replace(
             /(?<=&pos=)-?\d+(?=,0)/,
-            $ProductVirtualDecorationPositionXValue
+            $ProductVignetteDecorationPositionXValue
         )
     }
 
@@ -283,8 +283,8 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         &src=${$DecorationProofImageURLAsSourceValue}
         &pos=${$DecorationProofPositionX},${$DecorationProofPositionY}
         &layer=2
-        &src=${$ProductVirtualURLAsSourceValue}
-        &pos=${$ProductVirtualPositionX},${$ProductVirtualPositionY}
+        &src=${$ProductVignetteImageURLAsSourceValue}
+        &pos=${$ProductVignetteImagePositionX},${$ProductVignetteImagePositionY}
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
