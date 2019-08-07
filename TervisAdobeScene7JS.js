@@ -250,6 +250,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $FormType,
     $DecorationProofImageURLAsSourceValue,
     $ProductVirtualURLAsSourceValue,
+    $ProductVirtualDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
@@ -268,6 +269,13 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     var $ProductVirtualCenterPointY = 637
     var $ProductVirtualPositionX = $ProductVirtualCenterPointX - ($ProofBackgroundWidth/2)
     var $ProductVirtualPositionY = $ProductVirtualCenterPointY - ($ProofBackgroundHeight/2)
+
+    if ($ProductVirtualDecorationPositionXValue) {
+        $ProductVirtualURLAsSourceValue = $ProductVirtualURLAsSourceValue.replace(
+            /(?<=&pos=)-?\d+(?=,0)/,
+            $ProductVirtualDecorationPositionXValue
+        )
+    }
 
     var $RelativeURL = `
         tervisRender/VIRTUALS_ALL_Background?
