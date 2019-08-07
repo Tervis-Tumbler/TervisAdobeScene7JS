@@ -149,6 +149,50 @@ export function New_TervisAdobeScene7ProductVirtualURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
 }
 
+export async function New_TervisAdobeScene7DecorationProofImageURL ({
+    $DecorationImageURLAsSourceValue,
+    $ArcedDecoration,
+    $Size,
+    $FormType,
+    $IncludeDiecutterCalibrationLine,
+    $Width,
+    $Height,
+    $AsScene7SrcValue
+}) {
+    var $ProofBackgroundImageURLAsSourceValue
+
+    $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7DecorationProofBackgroundImageURL({
+        $Size,
+        $FormType,
+        $ArcedDecoration,
+        $Width,
+        $Height,
+        $AsScene7SrcValue: true
+    })
+
+    var $DiecutterCalibrationLineStanza
+    if ($IncludeDiecutterCalibrationLine) {
+        var $SizeStanza = New_AdobeScene7SizeStanza({$Width, $Height})
+        var $DiecutterCalibrationCheckLineImageURL = await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+        $DiecutterCalibrationLineStanza = `
+            &layer=3
+            &src=${$DiecutterCalibrationCheckLineImageURL}
+            ${$SizeStanza ? $SizeStanza : ""}
+        `
+    }
+    
+    var $RelativeURL = `
+        tervisRender?
+        &layer=0
+        &src=${$ProofBackgroundImageURLAsSourceValue}
+        &layer=1
+        &src=${$DecorationImageURLAsSourceValue}
+        ${$DiecutterCalibrationLineStanza ? $DiecutterCalibrationLineStanza : ""}
+    `.replace(/\s/g, "")
+
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+}
+
 export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
     $ArcedDecoration,
     $Size,
@@ -187,65 +231,6 @@ export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
     } else {
         return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
     }
-}
-
-export async function New_TervisAdobeScene7DecorationProofImageURL ({
-    $DecorationImageURLAsSourceValue,
-    $ArcedDecoration,
-    $Size,
-    $FormType,
-    $IncludeDiecutterCalibrationLine,
-    $Width,
-    $Height,
-    $AsScene7SrcValue
-}) {
-    var $ProofBackgroundImageURLAsSourceValue
-    if ($ArcedDecoration) {
-        var $ProofArtboardBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
-            $Size,
-            $FormType,
-            $AsScene7SrcValue: true
-        })
-
-        $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArcedImageURL({
-            $Size,
-            $FormType,
-            $AsScene7SrcValue: true,
-            $Width,
-            $Height,
-            $DecalSourceValue: $ProofArtboardBackgroundImageURLAsSourceValue
-        })
-    } else {
-        $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7ArtboardProofBackgroundImageURL({
-            $Size,
-            $FormType,
-            $Width,
-            $Height,
-            $AsScene7SrcValue: true
-        })
-    }
-
-    var $DiecutterCalibrationLineStanza
-    if ($IncludeDiecutterCalibrationLine) {
-        var $SizeStanza = New_AdobeScene7SizeStanza({$Width, $Height})
-        var $DiecutterCalibrationCheckLineImageURL = await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})
-        $DiecutterCalibrationLineStanza = `
-            &layer=3
-            &src=${$DiecutterCalibrationCheckLineImageURL}
-            ${$SizeStanza ? $SizeStanza : ""}
-        `
-    }
-    
-    var $RelativeURL = `
-        tervisRender?
-        &layer=0
-        &src=${$ProofBackgroundImageURLAsSourceValue}
-        &layer=1
-        &src=${$DecorationImageURLAsSourceValue}
-        ${$DiecutterCalibrationLineStanza ? $DiecutterCalibrationLineStanza : ""}
-    `.replace(/\s/g, "")
-
-    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
