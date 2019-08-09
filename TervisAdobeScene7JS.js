@@ -315,6 +315,6 @@ export async function Get_TervisAdobeScene7VignettePositions ({
     var $ArrayOfAdjustedSteps = $ArrayOfSteps.map( $Step => $Step - $StepAdjustmentAmount )
 
     $ArrayOfAdjustedSteps.reverse()
-    $ArrayOfAdjustedSteps = Invoke_ArrayRotate({$Array: $ArrayOfAdjustedSteps, $NumberOfPositionsToRotate: $NumberOfPositions/2})
+    $ArrayOfAdjustedSteps = Invoke_ArrayRotate({$Array: $ArrayOfAdjustedSteps, $NumberOfPositionsToRotate: ($NumberOfPositions/2 - 1)})
     return $ArrayOfAdjustedSteps
 }
