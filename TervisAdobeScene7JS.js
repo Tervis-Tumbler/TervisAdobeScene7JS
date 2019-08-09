@@ -11,7 +11,7 @@ import {
 
 import {
     Invoke_ArrayRotate
-} from '@tervis/tervisutility'
+} from '@tervis/tervisutilityjs'
 
 export function New_TervisAdobeScene7URL ({
     $Type,
