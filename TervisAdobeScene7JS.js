@@ -9,6 +9,10 @@ import {
     Get_TervisProductMetaDataUsingIndex
 } from '@tervis/tervisproductmetadata'
 
+import {
+    Invoke_ArrayRotate
+} from '@tervis/tervisutility'
+
 export function New_TervisAdobeScene7URL ({
     $Type,
     $RelativeURL,
@@ -288,4 +292,29 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+}
+
+export function Get_TervisAdobeScene7VignettePositions ({
+    $Size,
+    $FormType,
+    $NumberOfPositions
+}) {
+    var {
+        VignettePositionStepAmountToRotateBy90Degrees: $VignettePositionStepAmountToRotateBy90Degrees
+    } = await Get_TervisProductMetaDataUsingIndex({ $Size, $FormType })
+
+    var $DenominatorOfTheRatioOfTheStepAmountToTheUnAdjustedMaxStepAmount = 4
+    var $UnAdjustedMaxStepAmountValue = $VignettePositionStepAmountToRotateBy90Degrees * $DenominatorOfTheRatioOfTheStepAmountToTheUnAdjustedMaxStepAmount 
+
+    var $Increment = $UnAdjustedMaxStepAmountValue / $NumberOfPositions
+    
+    var $ArrayOfStepsMultipliers = [...Array($NumberOfPositions).keys()]     
+    var $ArrayOfSteps = $ArrayOfStepsMultipliers.map( $StepMultiplier => $StepMultiplier * $Increment) 
+    
+    var $StepAdjustmentAmount = $ArrayOfSteps[($NumberOfPositions / 2)]
+    var $ArrayOfAdjustedSteps = $ArrayOfSteps.map( $Step => $Step - $StepAdjustmentAmount )
+
+    $ArrayOfAdjustedSteps.reverse()
+    $ArrayOfAdjustedSteps = Invoke_ArrayRotate({$Array: $ArrayOfAdjustedSteps, $NumberOfPositionsToRotate: $NumberOfPositions/2})
+    return $ArrayOfAdjustedSteps
 }
