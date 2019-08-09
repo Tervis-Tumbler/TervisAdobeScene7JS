@@ -294,7 +294,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
-export function Get_TervisAdobeScene7VignettePositions ({
+export async function Get_TervisAdobeScene7VignettePositions ({
     $Size,
     $FormType,
     $NumberOfPositions
