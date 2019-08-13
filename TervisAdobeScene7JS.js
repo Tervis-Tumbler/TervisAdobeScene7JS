@@ -326,6 +326,6 @@ export async function Get_TervisAdobeScene7Silhouette ({
 }) {
     var $ProductMetaData = await Get_TervisProductMetaDataUsingIndex({ $Size, $FormType })
     var $Silhouette = $ProductMetaData.ImageTemplateName.Silhouette
-    $RelativeURL = `tervis/${$Silhouette}`
+    var $RelativeURL = `tervis/${$Silhouette}`
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
