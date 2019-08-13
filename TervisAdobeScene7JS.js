@@ -318,3 +318,14 @@ export async function Get_TervisAdobeScene7VignettePositions ({
     $ArrayOfAdjustedSteps = Invoke_ArrayRotate({$Array: $ArrayOfAdjustedSteps, $NumberOfPositionsToRotate: ($NumberOfPositions/2 - 1)})
     return $ArrayOfAdjustedSteps
 }
+
+export async function Get_TervisAdobeScene7Silhouette ({
+    $Size,
+    $FormType,
+    $AsScene7SrcValue
+}) {
+    var $ProductMetaData = await Get_TervisProductMetaDataUsingIndex({ $Size, $FormType })
+    var $Silhouette = $ProductMetaData.ImageTemplateName.Silhouette
+    $RelativeURL = `tervis/${$Silhouette}`
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+}
