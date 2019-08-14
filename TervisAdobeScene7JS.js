@@ -338,9 +338,10 @@ export async function Get_TervisAdobeScene7VignetteAccessories ({
     $Size,
     $FormType,
     $VignetteType,
+    $VignetteSuffix,
     $VignetteName
 }) {
-    var $VignetteContentsURL = New_TervisAdobeScene7VignetteContentsURL({ $Size, $FormType, $VignetteType, $VignetteName })
+    var $VignetteContentsURL = New_TervisAdobeScene7VignetteContentsURL({ $Size, $FormType, $VignetteType, $VignetteSuffix, $VignetteName })
     const $IsBrowser = !(typeof window === 'undefined');
 
     if (!$IsBrowser) {
