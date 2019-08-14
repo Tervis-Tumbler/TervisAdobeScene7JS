@@ -57,6 +57,7 @@ export function New_TervisAdobeScene7VignetteContentsURL({
     $Size,
     $FormType,
     $VignetteType,
+    $VignetteSuffix,
     $VignetteName
 }) {
     var $VignetteTypeToSuffixMap = {
@@ -66,6 +67,8 @@ export function New_TervisAdobeScene7VignetteContentsURL({
     
     if ($VignetteType) {
         var $VignetteName = `${$Size}${$FormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
+    } else if ($VignetteSuffix) {
+        var $VignetteName = `${$Size}${$FormType}${$VignetteSuffix}`
     }
     
     // Using images2 to route through envoy proxy to add CORs headers until we can get scene 7 return the right headers directly
