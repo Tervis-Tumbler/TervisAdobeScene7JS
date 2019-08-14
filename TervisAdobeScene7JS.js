@@ -356,7 +356,7 @@ export async function Get_TervisAdobeScene7VignetteAccessories ({
     .then($Response => $Response.text())
     .then($String => (new window.DOMParser()).parseFromString($String, "text/xml"))
 
-    $AccessoriesXMLElement = $VignetteContentsXML.querySelector("vignette contents #MAIN #ACCESSORIES")
+    var $AccessoriesXMLElement = $VignetteContentsXML.querySelector("vignette contents #MAIN #ACCESSORIES")
     return [...$AccessoriesXMLElement.children].map(
         $AccessoryXMLElement => {
             return {
