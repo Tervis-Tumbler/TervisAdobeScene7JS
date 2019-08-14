@@ -68,7 +68,8 @@ export function New_TervisAdobeScene7VignetteContentsURL({
         var $VignetteName = `${$Size}${$FormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
     }
     
-    return `https://images.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
+    // Using images2 to route through envoy proxy to add CORs headers until we can get scene 7 return the right headers directly
+    return `https://images2.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
 }
 
 export function New_TervisAdobeScene7PrintSingleURL ({
@@ -328,4 +329,39 @@ export async function Get_TervisAdobeScene7Silhouette ({
     var $Silhouette = $ProductMetaData.ImageTemplateName.Silhouette
     var $RelativeURL = `tervis/${$Silhouette}`
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+}
+
+export async function Get_TervisAdobeScene7VignetteAccessories ({
+    $Size,
+    $FormType,
+    $VignetteType,
+    $VignetteName
+}) {
+    var $VignetteContentsURL = New_TervisAdobeScene7VignetteContentsURL({ $Size, $FormType, $VignetteType, $VignetteName })
+    const $IsBrowser = !(typeof window === 'undefined');
+
+    if (!$IsBrowser) {
+        var fetch = (await import("node-fetch")).default
+    } else {
+        var fetch = window.fetch
+    }
+
+    var $VignetteContentsXML = await fetch(
+        $VignetteContentsURL
+    )
+    .then($Response => $Response.text())
+    .then($String => (new window.DOMParser()).parseFromString($String, "text/xml"))
+
+    $AccessoriesXMLElement = $VignetteContentsXML.querySelector("vignette contents #MAIN #ACCESSORIES")
+    return [...$AccessoriesXMLElement.children].map(
+        $AccessoryXMLElement => {
+            return {
+                Code: $AccessoryXMLElement.id,
+                AvailableColorCodes: [...$AccessoryXMLElement.children].map(
+                    $ColorCodeXMLElement =>
+                    $ColorCodeXMLElement.id
+                )
+            }
+        }
+    )
 }
