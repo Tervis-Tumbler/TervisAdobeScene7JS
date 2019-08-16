@@ -334,6 +334,14 @@ export async function Get_TervisAdobeScene7Silhouette ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
+export function Get_TervisAdobeScene7SwatchImageURL ({
+    $ColorCode,
+    $AsScene7SrcValue
+}) {
+    var $RelativeURL = `tervis/${$ColorCode}?$SWATCH$`
+    return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
+} 
+
 export async function Get_TervisAdobeScene7VignetteAccessories ({
     $Size,
     $FormType,
