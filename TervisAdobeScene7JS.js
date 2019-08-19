@@ -340,9 +340,9 @@ export function Get_TervisAdobeScene7SwatchImageURL ({
 }) {
     var $RelativeURL = `tervis/${$ColorCode}?$SWATCH$`
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
-} 
+}
 
-export async function Get_TervisAdobeScene7VignetteAccessories ({
+export async function Get_TervisAdobeScene7VignetteContentsXML ({
     $Size,
     $FormType,
     $VignetteType,
@@ -364,18 +364,47 @@ export async function Get_TervisAdobeScene7VignetteAccessories ({
     .then($Response => $Response.text())
     .then($String => (new window.DOMParser()).parseFromString($String, "text/xml"))
 
-    var $AccessoriesXMLElement = $VignetteContentsXML.querySelector("vignette contents #MAIN #ACCESSORIES")
-    if ($AccessoriesXMLElement) {
-        return [...$AccessoriesXMLElement.children].map(
-            $AccessoryXMLElement => {
-                return {
-                    Code: $AccessoryXMLElement.id,
-                    AvailableColorCodes: [...$AccessoryXMLElement.children].map(
-                        $ColorCodeXMLElement =>
-                        $ColorCodeXMLElement.id
-                    )
-                }
+    return $VignetteContentsXML
+}
+
+export async function Get_TervisAdobeScene7VignetteObjectWithColorOption ({
+    $Size,
+    $FormType,
+    $VignetteType,
+    $VignetteSuffix,
+    $VignetteName
+}) {
+    var $VignetteContentsXML = await Get_TervisAdobeScene7VignetteContentsXML({
+        $Size,
+        $FormType,
+        $VignetteType,
+        $VignetteSuffix,
+        $VignetteName
+    })
+
+    var $IDsOfVignetteObjectWithColorOption = [ "ACCESSORIES", "INNER", "OUTER"]
+    var $VignetteObjectWithColorOptionSelector = $IDsOfVignetteObjectWithColorOption.map(
+        $ID => `vignette contents #MAIN #${$ID}`
+    )
+    .join()
+
+    var $NodeList = $VignetteContentsXML.querySelectorAll($VignetteObjectWithColorOptionSelector)
+
+    return [...$NodeList].map(
+        $Node => {
+            return {
+                Code: $Node.id,
+                Options: [...$Node.children].map(
+                    $ChildNode => {
+                        return {
+                            Code: $ChildNode.id,
+                            AvailableColorCodes: [...$ChildNode.children].map(
+                                $ColorCodeNode => $ColorCodeNode.id
+                            )
+                        }
+                    }
+                )
             }
-        )
-    }
+        }
+    )
 }
