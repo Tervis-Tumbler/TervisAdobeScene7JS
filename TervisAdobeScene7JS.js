@@ -29,14 +29,14 @@ export function New_TervisAdobeScene7URL ({
 }
 
 export async function New_TervisAdobeScene7ArcedImageURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $DecalSourceValue,
     $Width,
     $Height,
     $AsScene7SrcValue
 }) {
-    let $GetTemplateNameParameters = ({$Size, $FormType})
+    let $GetTemplateNameParameters = ({$ProductSize, $ProductFormType})
 
     var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
     
@@ -54,8 +54,8 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
 }
 
 export function New_TervisAdobeScene7VignetteContentsURL({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $VignetteType,
     $VignetteSuffix,
     $VignetteName
@@ -66,9 +66,9 @@ export function New_TervisAdobeScene7VignetteContentsURL({
     }
     
     if ($VignetteType) {
-        var $VignetteName = `${$Size}${$FormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
+        var $VignetteName = `${$ProductSize}${$ProductFormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
     } else if ($VignetteSuffix) {
-        var $VignetteName = `${$Size}${$FormType}${$VignetteSuffix}`
+        var $VignetteName = `${$ProductSize}${$ProductFormType}${$VignetteSuffix}`
     }
     
     // Using images2 to route through envoy proxy to add CORs headers until we can get scene 7 return the right headers directly
@@ -76,14 +76,14 @@ export function New_TervisAdobeScene7VignetteContentsURL({
 }
 
 export function New_TervisAdobeScene7PrintSingleURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $DecorationType,
     $AsScene7SrcValue,
     $ImageSrcValue
 }) {
     var $RelativeURL = `
-        tervisRender/${$Size}${$FormType}-${$DecorationType}-PRINT-SINGLE?
+        tervisRender/${$ProductSize}${$ProductFormType}-${$DecorationType}-PRINT-SINGLE?
         obj=DECO
         &decal
         &src=${$ImageSrcValue}
@@ -97,14 +97,14 @@ export function New_TervisAdobeScene7PrintSingleURL ({
 }
 
 export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $AsScene7SrcValue,
     $DecorationType,
     $RepeatedImageSource
 }) {
     var $RelativeURL = `
-        tervis/${$Size}${$FormType}-${$DecorationType}-DECO3?
+        tervis/${$ProductSize}${$ProductFormType}-${$DecorationType}-DECO3?
         layer=1
         &src=${$RepeatedImageSource}
         &layer=2
@@ -117,8 +117,8 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
 }
 
 export function New_TervisAdobeScene7ProductVignetteImageURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $VignetteSuffix,
     $DecorationSrc,
     $DecorationPositionXValue,
@@ -146,7 +146,7 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
 
     var $RelativeURL = `
-        tervisRender/${$Size}${$FormType}${$VignetteSuffix}?
+        tervisRender/${$ProductSize}${$ProductFormType}${$VignetteSuffix}?
         ${$ShowObjectsURLFragment ? $ShowObjectsURLFragment : ""}
         ${$DecorationStanza ? $DecorationStanza : ""}
         ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
@@ -160,8 +160,8 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
 export async function New_TervisAdobeScene7DecorationProofImageURL ({
     $DecorationImageURLAsSourceValue,
     $ArcedDecoration,
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $IncludeDiecutterCalibrationLine,
     $Width,
     $Height,
@@ -170,8 +170,8 @@ export async function New_TervisAdobeScene7DecorationProofImageURL ({
     var $ProofBackgroundImageURLAsSourceValue
 
     $ProofBackgroundImageURLAsSourceValue = await New_TervisAdobeScene7DecorationProofBackgroundImageURL({
-        $Size,
-        $FormType,
+        $ProductSize,
+        $ProductFormType,
         $ArcedDecoration,
         $Width,
         $Height,
@@ -181,7 +181,7 @@ export async function New_TervisAdobeScene7DecorationProofImageURL ({
     var $DiecutterCalibrationLineStanza
     if ($IncludeDiecutterCalibrationLine) {
         var $SizeStanza = New_AdobeScene7SizeStanza({$Width, $Height})
-        var $DiecutterCalibrationCheckLineImageURL = await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$Size, $FormType, $AsScene7SrcValue: true})
+        var $DiecutterCalibrationCheckLineImageURL = await New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL({$ProductSize, $ProductFormType, $AsScene7SrcValue: true})
         $DiecutterCalibrationLineStanza = `
             &layer=3
             &src=${$DiecutterCalibrationCheckLineImageURL}
@@ -203,13 +203,13 @@ export async function New_TervisAdobeScene7DecorationProofImageURL ({
 
 export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
     $ArcedDecoration,
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $Width,
     $Height,
     $AsScene7SrcValue
 }) {
-    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
+    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$ProductSize, $ProductFormType})
     var $ArtBoardDimensions = $SizeAndFormTypeMetaData.ArtBoardDimensions
     var $BackgroundColorHex = "e6e7e8"
     var $SizeStanza = New_AdobeScene7SizeStanza({
@@ -227,8 +227,8 @@ export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
     if ($ArcedDecoration) {
         var $RelativeURLAsSrcValue = New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue: true})
         var $DecorationProofBackgroundArced = await New_TervisAdobeScene7ArcedImageURL({
-            $Size,
-            $FormType,
+            $ProductSize,
+            $ProductFormType,
             $AsScene7SrcValue,
             $Width,
             $Height,
@@ -242,26 +242,26 @@ export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
 }
 
 export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $AsScene7SrcValue
 }) {
     return New_TervisAdobeScene7URL({
         $Type: "ImageServer",
-        $RelativeURL: `tervisRender/${await Get_TervisProductImageTemplateName({ $Size, $FormType, $TemplateType: "DiecutterCalibrationCheckLine"})}`,
+        $RelativeURL: `tervisRender/${await Get_TervisProductImageTemplateName({ $ProductSize, $ProductFormType, $TemplateType: "DiecutterCalibrationCheckLine"})}`,
         $AsScene7SrcValue
     })
 }
 
 export async function New_TervisAdobeScene7VirtualImageURL ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $DecorationProofImageURLAsSourceValue,
     $ProductVignetteImageURLAsSourceValue,
     $ProductVignetteDecorationPositionXValue,
     $AsScene7SrcValue
 }) {
-    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$Size, $FormType})
+    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$ProductSize, $ProductFormType})
     var $ProofBackgroundWidth = 1650
     var $ProofBackgroundHeight = 1275
 
@@ -299,13 +299,13 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
 }
 
 export async function Get_TervisAdobeScene7VignettePositions ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $NumberOfPositions
 }) {
     var {
         VignettePositionStepAmountToRotateBy90Degrees: $VignettePositionStepAmountToRotateBy90Degrees
-    } = await Get_TervisProductMetaDataUsingIndex({ $Size, $FormType })
+    } = await Get_TervisProductMetaDataUsingIndex({ $ProductSize, $ProductFormType })
 
     var $DenominatorOfTheRatioOfTheStepAmountToTheUnAdjustedMaxStepAmount = 4
     var $UnAdjustedMaxStepAmountValue = $VignettePositionStepAmountToRotateBy90Degrees * $DenominatorOfTheRatioOfTheStepAmountToTheUnAdjustedMaxStepAmount 
@@ -324,11 +324,11 @@ export async function Get_TervisAdobeScene7VignettePositions ({
 }
 
 export async function Get_TervisAdobeScene7Silhouette ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $AsScene7SrcValue
 }) {
-    var $ProductMetaData = await Get_TervisProductMetaDataUsingIndex({ $Size, $FormType })
+    var $ProductMetaData = await Get_TervisProductMetaDataUsingIndex({ $ProductSize, $ProductFormType })
     var $Silhouette = $ProductMetaData.ImageTemplateName.Silhouette
     var $RelativeURL = `tervis/${$Silhouette}`
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
@@ -343,13 +343,13 @@ export function Get_TervisAdobeScene7SwatchImageURL ({
 }
 
 export async function Get_TervisAdobeScene7VignetteContentsXML ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $VignetteType,
     $VignetteSuffix,
     $VignetteName
 }) {
-    var $VignetteContentsURL = New_TervisAdobeScene7VignetteContentsURL({ $Size, $FormType, $VignetteType, $VignetteSuffix, $VignetteName })
+    var $VignetteContentsURL = New_TervisAdobeScene7VignetteContentsURL({ $ProductSize, $ProductFormType, $VignetteType, $VignetteSuffix, $VignetteName })
     const $IsBrowser = !(typeof window === 'undefined');
 
     if (!$IsBrowser) {
@@ -368,15 +368,15 @@ export async function Get_TervisAdobeScene7VignetteContentsXML ({
 }
 
 export async function Get_TervisAdobeScene7VignetteObjectWithColorOption ({
-    $Size,
-    $FormType,
+    $ProductSize,
+    $ProductFormType,
     $VignetteType,
     $VignetteSuffix,
     $VignetteName
 }) {
     var $VignetteContentsXML = await Get_TervisAdobeScene7VignetteContentsXML({
-        $Size,
-        $FormType,
+        $ProductSize,
+        $ProductFormType,
         $VignetteType,
         $VignetteSuffix,
         $VignetteName
