@@ -298,6 +298,19 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
+export async function ConvertTo_TervisAdobeScene7VignettePosition ({
+    $ProductSize,
+    $ProductFormType,
+    $Degrees
+}) {
+    var {
+        VignettePositionStepAmountToRotateBy90Degrees: $VignettePositionStepAmountToRotateBy90Degrees
+    } = await Get_TervisProductMetaDataUsingIndex({ $ProductSize, $ProductFormType })
+
+    var $VignettePositionStepAmountToRotateBy1Degrees = $VignettePositionStepAmountToRotateBy90Degrees / 90
+    return $Degrees * $VignettePositionStepAmountToRotateBy1Degrees
+}
+
 export async function Get_TervisAdobeScene7VignettePositions ({
     $ProductSize,
     $ProductFormType,
