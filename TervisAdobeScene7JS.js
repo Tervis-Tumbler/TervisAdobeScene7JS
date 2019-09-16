@@ -147,18 +147,15 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
         `.replace(/\s/g, "")
     }
 
-    var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
-
     var $RelativeURL = `
         tervisRender/${$ProductSize}${$ProductFormType}${$VignetteSuffix}?
         ${$ShowObjectsURLFragment ? $ShowObjectsURLFragment : ""}
         ${$DecorationStanza ? $DecorationStanza : ""}
-        ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
         &obj=MAIN
         &req=object
     `.replace(/\s/g, "")
 
-    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
+    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $Width, $Height, $AsScene7SrcValue})
 }
 
 export async function New_TervisAdobeScene7DecorationProofImageURL ({
