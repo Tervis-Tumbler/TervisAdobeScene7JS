@@ -17,13 +17,17 @@ export function New_TervisAdobeScene7URL ({
     $Type,
     $RelativeURL,
     $AsScene7SrcValue,
-    $ExternalURL
+    $ExternalURL,
+    $Width,
+    $Height
 }) {
     return New_AdobeScene7URL({
         $Type,
         $RelativeURL,
         $AsScene7SrcValue,
         $ExternalURL,
+        $Width,
+        $Height,
         $Host: "images.tervis.com"
     })
 }
