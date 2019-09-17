@@ -42,8 +42,6 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
 }) {
     let $GetTemplateNameParameters = ({$ProductSize, $ProductFormType})
 
-    var $WidthAndHeightStanza = New_AdobeScene7URLWidthAndHeightStanza({$Width, $Height})
-    
     var $RelativeURL = `
         tervisRender/${await Get_TervisProductImageTemplateName({ ...$GetTemplateNameParameters, $TemplateType: "Vignette"})}?
         &obj=group
@@ -54,7 +52,14 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
         &req=object
         ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
     `.replace(/\s/g, "")
-    return New_TervisAdobeScene7URL({$Type: "ImageRender", $RelativeURL, $AsScene7SrcValue})
+
+    return New_TervisAdobeScene7URL({
+        $Type: "ImageRender",
+        $RelativeURL,
+        $AsScene7SrcValue,
+        $Width,
+        $Height
+    })
 }
 
 export function New_TervisAdobeScene7VignetteContentsURL({
