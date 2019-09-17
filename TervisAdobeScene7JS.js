@@ -50,7 +50,6 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
         &show
         &res=300
         &req=object
-        ${$WidthAndHeightStanza ? $WidthAndHeightStanza : ""}
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({
