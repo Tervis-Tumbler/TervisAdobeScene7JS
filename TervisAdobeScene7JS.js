@@ -319,7 +319,8 @@ export async function ConvertTo_TervisAdobeScene7VignettePosition ({
 export async function Get_TervisAdobeScene7VignettePosition ({
     $ProductSize,
     $ProductFormType,
-    $NumberOfPositions
+    $NumberOfPositions,
+    $StartPosition
 }) {
     var {
         VignettePositionStepAmountToRotateBy90Degrees: $VignettePositionStepAmountToRotateBy90Degrees
@@ -341,6 +342,13 @@ export async function Get_TervisAdobeScene7VignettePosition ({
         $Array: $ArrayOfAdjustedSteps,
         $NumberOfPositionsToRotate: ($NumberOfPositions/2 - 1)
     })
+
+    if ($StartPosition) {
+        $ArrayOfAdjustedSteps = Invoke_ArrayRotate({
+            $Array: $ArrayOfAdjustedSteps,
+            $NumberOfPositionsToRotate: $ArrayOfAdjustedSteps.indexOf($StartPosition)
+        })
+    }
     return $ArrayOfAdjustedSteps
 }
 
