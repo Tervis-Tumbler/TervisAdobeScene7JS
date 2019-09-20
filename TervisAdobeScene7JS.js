@@ -246,6 +246,64 @@ export async function New_TervisAdobeScene7DecorationProofBackgroundImageURL ({
     }
 }
 
+export async function New_TervisAdobeScene7VignetteCalibrationImageURL ({
+    $ArcedDecoration,
+    $ProductSize,
+    $ProductFormType,
+    $AsScene7SrcValue
+}) {
+    var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$ProductSize, $ProductFormType})
+    var $ArtBoardDimensions = $SizeAndFormTypeMetaData.ArtBoardDimensions
+
+    var $SizeStanza = New_AdobeScene7SizeStanza({
+        $Width: $ArtBoardDimensions.Width,
+        $Height: $ArtBoardDimensions.Height
+    })
+
+    var $BlackBarSizeStanza = New_AdobeScene7SizeStanza({
+        $Width: 20,
+        $Height: $ArtBoardDimensions.Height
+    })
+    var $BlackBarOffsetFromCenter = $ArtBoardDimensions.Width / 2
+
+    var $RelativeURL = `
+        tervis?
+        layer=0
+        ${$SizeStanza ? $SizeStanza : ""}
+        &layer=1
+        &bgcolor=000000
+        ${$BlackBarSizeStanza ? $BlackBarSizeStanza : ""}
+        &pos=${$BlackBarOffsetFromCenter}
+        &layer=2
+        &bgcolor=000000
+        ${$BlackBarSizeStanza ? $BlackBarSizeStanza : ""}
+        &pos=-${$BlackBarOffsetFromCenter}
+    `.replace(/\s/g, "")
+
+    if ($ArcedDecoration) {
+        var $RelativeURLAsSrcValue = New_TervisAdobeScene7URL({
+            $Type: "ImageServer",
+            $RelativeURL,
+            $AsScene7SrcValue: true
+        })
+
+        var $DecorationProofBackgroundArced = await New_TervisAdobeScene7ArcedImageURL({
+            $ProductSize,
+            $ProductFormType,
+            $AsScene7SrcValue,
+            $DecalSourceValue: $RelativeURLAsSrcValue
+        })
+
+        return $DecorationProofBackgroundArced
+    } else {
+        return New_TervisAdobeScene7URL({
+            $Type: "ImageServer",
+            $RelativeURL,
+            $AsScene7SrcValue
+        })
+    }
+}
+
 export async function New_TervisAdobeScene7DiecutterCalibrationCheckLineImageURL ({
     $ProductSize,
     $ProductFormType,
