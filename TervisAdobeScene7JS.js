@@ -124,10 +124,105 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
 }
 
+export function New_TervisAdobeScene7ProductEngravingDecorationVignetteImageURL ({
+    $ProductSize,
+    $ProductFormType,
+    $DecorationGroupID,
+    $DecorationSrc,
+    $DecorationPositionXValue,
+    $ElementPathsToShow,
+    $Width,
+    $Height,
+    $AsScene7SrcValue
+}) {
+    $RelativeURL = `
+        tervis?
+        layer=0
+        &src=${
+            New_TervisAdobeScene7ProductVignetteImageURL({
+                $ProductSize,
+                $ProductFormType,
+                $VignetteSuffix: 1,
+                $ElementPathsToShow,
+                $DecorationGroupID,
+                $Width,
+                $Height
+            })
+        }
+        &layer=1
+        &src=${
+            New_TervisAdobeScene7EngravingDecorationImageURL({
+                $ProductSize,
+                $ProductFormType,
+                $AsScene7SrcValue: true,
+                $DecorationSrc,
+                $DecorationPositionXValue,
+                $Width,
+                $Height
+            })
+        }
+    `
+    
+    return New_TervisAdobeScene7URL({
+        $Type: "ImageServer",
+        $Width,
+        $Height,
+        $RelativeURL,
+        $AsScene7SrcValue
+    })    
+}
+
+export function New_TervisAdobeScene7EngravingDecorationImageURL ({
+    $ProductSize,
+    $ProductFormType,
+    $AsScene7SrcValue,
+    $DecorationSrc,
+    $DecorationPositionXValue,
+    $Width,
+    $Height
+}) {
+    $RelativeURL = `
+        tervis/ENGRAVE?
+        layer=1
+        &src=ir(
+            tervisRender/${$ProductSize}${$ProductFormType}1?
+            &obj=MAIN/OUTER/SMOOTH/SS1
+            &show
+            &obj=MAIN
+            &req=object
+            &sharpen=1
+        )
+        &mask=${
+            New_TervisAdobeScene7ProductVignetteImageURL({
+                $ProductSize,
+                $ProductFormType,
+                $VignetteSuffix: 1,
+                $DecorationPositionXValue,
+                $AsScene7SrcValue: true,
+                $DecorationSrc: New_TervisAdobeScene7WrapDecoration3TimesURL({
+                    $DecorationType: "LET",
+                    $ProductSize,
+                    $ProductFormType,
+                    $AsScene7SrcValue: true,
+                    $RepeatedImageSource: $DecorationSrc
+                })
+            })
+        }
+    `
+    return New_TervisAdobeScene7URL({
+        $Type: "ImageServer",
+        $RelativeURL,
+        $AsScene7SrcValue,
+        $Width,
+        $Height
+    })    
+}
+
 export function New_TervisAdobeScene7ProductVignetteImageURL ({
     $ProductSize,
     $ProductFormType,
     $VignetteSuffix,
+    $DecorationGroupID,
     $DecorationSrc,
     $DecorationPositionXValue,
     $ElementPathsToShow,
