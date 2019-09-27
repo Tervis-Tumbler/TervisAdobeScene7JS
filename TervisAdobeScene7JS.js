@@ -593,7 +593,7 @@ export async function Get_TervisAdobeScene7VignetteObjectWithColorOption ({
     )
 }
 
-export async function New_TervisAdobeScene7WhiteInkImageURL ({
+export function New_TervisAdobeScene7WhiteInkImageURL ({
     $ProductSize,
     $ProductFormType,
     $ColorInkImageURLAsSrcValue,
