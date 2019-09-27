@@ -592,3 +592,23 @@ export async function Get_TervisAdobeScene7VignetteObjectWithColorOption ({
         }
     )
 }
+
+export async function New_TervisAdobeScene7WhiteInkImageURL ({
+    $ProductSize,
+    $ProductFormType,
+    $ColorInkImageURLAsSrcValue,
+    $AsScene7SrcValue
+}) {
+    var $RelativeURL = `
+        tervis?
+        &src=${$ColorInkImageURLAsSrcValue}
+        &.color=000000
+    `
+    New_TervisAdobeScene7ArcedImageURL({
+        $RelativeURL,
+        $ProductSize,
+        $ProductFormType,
+        $AsScene7SrcValue,
+        $Format: "png,gray"
+    })
+}
