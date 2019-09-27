@@ -604,7 +604,7 @@ export async function New_TervisAdobeScene7WhiteInkImageURL ({
         &src=${$ColorInkImageURLAsSrcValue}
         &.color=000000
     `
-    New_TervisAdobeScene7ArcedImageURL({
+    return New_TervisAdobeScene7URL({
         $RelativeURL,
         $ProductSize,
         $ProductFormType,
