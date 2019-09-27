@@ -1,6 +1,6 @@
 {
   "name": "@tervis/tervisadobescene7js",
-  "version": "0.1.88",
+  "version": "0.1.89",
   "type": "module",
   "main": "TervisAdobeScene7JS.js",
   "repository": {
