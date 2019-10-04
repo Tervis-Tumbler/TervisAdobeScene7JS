@@ -603,6 +603,7 @@ export function New_TervisAdobeScene7WhiteInkImageURL ({
         tervis?
         &src=${$ColorInkImageURLAsSrcValue}
         &.color=000000
+        &op_invert=1
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({
