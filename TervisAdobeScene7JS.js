@@ -419,6 +419,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
     $DecorationProofImageURLAsSourceValue,
     $ProductVignetteImageURLAsSourceValue,
     $ProductVignetteDecorationPositionXValue,
+    $VirtualImageIdentifier,
     $AsScene7SrcValue
 }) {
     var $SizeAndFormTypeMetaData = await Get_TervisProductMetaDataUsingIndex({$ProductSize, $ProductFormType})
@@ -445,6 +446,14 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         )
     }
 
+    if ($VirtualImageIdentifier) {
+        var $VirtualImageIdentifierStanza = `
+            &layer=30,VirtualImageIdentifier
+            &text={\\colortbl;\\red220\\green220\\blue220}%20\\cf1%20\\fs20%20${encodeURIComponent($VirtualImageIdentifier)}
+            &anchor=800,-610
+        `
+    }
+
     var $RelativeURL = `
         tervisRender/VIRTUALS_ALL_Background?
         layer=1
@@ -453,6 +462,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         &layer=2
         &src=${$ProductVignetteImageURLAsSourceValue}
         &pos=${$ProductVignetteImagePositionX},${$ProductVignetteImagePositionY}
+        ${$VirtualImageIdentifierStanza ? $VirtualImageIdentifierStanza : ""}
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
