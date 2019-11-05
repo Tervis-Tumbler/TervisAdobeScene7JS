@@ -20,7 +20,8 @@ export function New_TervisAdobeScene7URL ({
     $ExternalURL,
     $Width,
     $Height,
-    $Format
+    $Format,
+    $Cache
 }) {
     return New_AdobeScene7URL({
         $Host: "images.tervis.com",
@@ -30,7 +31,8 @@ export function New_TervisAdobeScene7URL ({
         $ExternalURL,
         $Width,
         $Height,
-        $Format
+        $Format,
+        $Cache
     })
 }
 
@@ -40,6 +42,7 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
     $DecalSourceValue,
     $Width,
     $Height,
+    $Cache,
     $AsScene7SrcValue
 }) {
     let $GetTemplateNameParameters = ({$ProductSize, $ProductFormType})
@@ -57,9 +60,10 @@ export async function New_TervisAdobeScene7ArcedImageURL ({
     return New_TervisAdobeScene7URL({
         $Type: "ImageRender",
         $RelativeURL,
-        $AsScene7SrcValue,
         $Width,
-        $Height
+        $Height,
+        $Cache,
+        $AsScene7SrcValue
     })
 }
 
