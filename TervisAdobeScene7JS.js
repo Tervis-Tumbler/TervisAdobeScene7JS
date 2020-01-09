@@ -467,6 +467,7 @@ export async function New_TervisAdobeScene7VirtualImageURL ({
         &src=${$ProductVignetteImageURLAsSourceValue}
         &pos=${$ProductVignetteImagePositionX},${$ProductVignetteImagePositionY}
         ${$VirtualImageIdentifierStanza ? $VirtualImageIdentifierStanza : ""}
+        &cache=off
     `.replace(/\s/g, "")
 
     return New_TervisAdobeScene7URL({$Type: "ImageServer", $RelativeURL, $AsScene7SrcValue})
