@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@tervis/adobescene7js": "^0.1.8",
-    "@tervis/tervisproductmetadata": "^1.0.45",
+    "@tervis/tervisproductmetadata": "^1.0.46",
     "@tervis/tervisutilityjs": "^0.1.12"
   }
 }
