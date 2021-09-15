@@ -117,8 +117,13 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     $DecorationType,
     $RepeatedImageSource
 }) {
+    let $Version
+    let $UpdatedForms = ['SS','WMB','SMB']
+    if ($UpdatedForms.includes($ProductFormType)) {
+        $Version = '-V2'
+    }
     var $RelativeURL = `
-        tervis/${$ProductSize}${$ProductFormType}-${$DecorationType}-DECO3?
+        tervis/${$ProductSize}${$ProductFormType}${$Version}-${$DecorationType}-DECO3?
         layer=1
         &src=${$RepeatedImageSource}
         &layer=2
@@ -240,11 +245,19 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
         $ElementPath => `&obj=${$ElementPath}&show`
     )
     .join('')
- 
+
+    let $DecorationCategory = 'DECO'
+    let $Version
+    let $UpdatedForms = ['SS','WMB','SMB']
+    if ($UpdatedForms.includes($ProductFormType)) {
+        $DecorationCategory = 'DPT'
+        $Version = '-V2'
+    }
+    
     var $DecorationStanza
     if ($DecorationSrc) {
         $DecorationStanza = `
-            &obj=MAIN/DECO
+            &obj=MAIN/${$DecorationCategory}
             &decal
             &src=${$DecorationSrc}
             &pos=${$DecorationPositionXValue},0
@@ -253,7 +266,7 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     }
 
     var $RelativeURL = `
-        tervisRender/${$ProductSize}${$ProductFormType}${$VignetteSuffix}?
+        tervisRender/${$ProductSize}${$ProductFormType}${$VignetteSuffix}${$Version}?
         ${$ShowObjectsURLFragment ? $ShowObjectsURLFragment : ""}
         ${$DecorationStanza ? $DecorationStanza : ""}
         &obj=MAIN
