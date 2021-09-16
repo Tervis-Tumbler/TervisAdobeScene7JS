@@ -117,7 +117,7 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     $DecorationType,
     $RepeatedImageSource
 }) {
-    let $Version
+    let $Version = ''
     let $UpdatedForms = ['SS','WMB','SMB']
     if ($UpdatedForms.includes($ProductFormType)) {
         $Version = '-V2'
@@ -247,7 +247,7 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     .join('')
 
     let $DecorationCategory = 'DECO'
-    let $Version
+    let $Version = ''
     let $UpdatedForms = ['SS','WMB','SMB']
     if ($UpdatedForms.includes($ProductFormType)) {
         $DecorationCategory = 'DPT'
