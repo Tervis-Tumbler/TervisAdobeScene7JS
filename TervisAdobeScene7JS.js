@@ -117,11 +117,8 @@ export function New_TervisAdobeScene7WrapDecoration3TimesURL ({
     $DecorationType,
     $RepeatedImageSource
 }) {
-    let $Version = ''
-    let $UpdatedForms = ['SS','WMB','SMB']
-    if ($UpdatedForms.includes($ProductFormType)) {
-        $Version = '-V2'
-    }
+    const $Version = '-V2'
+
     var $RelativeURL = `
         tervis/${$ProductSize}${$ProductFormType}${$Version}-${$DecorationType}-DECO3?
         layer=1
@@ -246,13 +243,8 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     )
     .join('')
 
-    let $DecorationCategory = 'DECO'
-    let $Version = ''
-    let $UpdatedForms = ['SS','WMB','SMB']
-    if ($UpdatedForms.includes($ProductFormType)) {
-        $DecorationCategory = 'DPT'
-        $Version = '-V2'
-    }
+    let $DecorationCategory = 'DPT'
+    const $Version = '-V2'
     
     var $DecorationStanza
     if ($DecorationSrc) {
