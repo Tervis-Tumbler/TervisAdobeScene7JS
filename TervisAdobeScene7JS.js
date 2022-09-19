@@ -78,6 +78,8 @@ export function New_TervisAdobeScene7VignetteContentsURL({
         "Hero": "1-HERO2",
         "Stock": "1"
     }
+
+    const $VignetteVersion = '-V2'
     
     if ($VignetteType) {
         var $VignetteName = `${$ProductSize}${$ProductFormType}${$VignetteTypeToSuffixMap[$VignetteType]}`
@@ -86,7 +88,7 @@ export function New_TervisAdobeScene7VignetteContentsURL({
     }
     
     // Using images2 to route through envoy proxy to add CORs headers until we can get scene 7 return the right headers directly
-    return `https://images2.tervis.com/ir/render/tervisRender/${$VignetteName}?req=contents`
+    return `https://images2.tervis.com/ir/render/tervisRender/${$VignetteName}${$VignetteVersion}?req=contents`
 }
 
 export function New_TervisAdobeScene7PrintSingleURL ({
