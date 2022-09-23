@@ -245,7 +245,7 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     )
     .join('')
 
-    let $DecorationCategory = 'DECO'
+    let $DecorationCategory = 'DPT'
     const $Version = '-V2'
     
     var $DecorationStanza
