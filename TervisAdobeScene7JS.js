@@ -235,6 +235,7 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     $DecorationGroupID,
     $DecorationSrc,
     $DecorationPositionXValue,
+    $DecorationType = "DECO",
     $ElementPathsToShow,
     $Width,
     $Height,
@@ -245,13 +246,12 @@ export function New_TervisAdobeScene7ProductVignetteImageURL ({
     )
     .join('')
 
-    let $DecorationCategory = 'DPT'
     const $Version = '-V2'
     
     var $DecorationStanza
     if ($DecorationSrc) {
         $DecorationStanza = `
-            &obj=MAIN/${$DecorationCategory}
+            &obj=MAIN/${$DecorationType}
             &decal
             &src=${$DecorationSrc}
             &pos=${$DecorationPositionXValue},0
